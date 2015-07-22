@@ -1,10 +1,10 @@
-function [ output_args ] = PlotAllPF()
+function [bcounts,bcenters] = RegCellAnalysis(sessnums)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
 cd('C:\MasterData');
 load MasterDirectory;
-cd(MD(1).Location);
+cd(MD(sessnums(1)).Location);
 load Reg_NeuronIDs.mat;
 
 nmap = Reg_NeuronIDs(1).all_session_map(:,2:end);
@@ -12,8 +12,8 @@ nmap = Reg_NeuronIDs(1).all_session_map(:,2:end);
 NumNeurons = size(nmap,1);
 NumSessions = size(nmap,2);
 
-for i = 1:length(MD)
-    cd(MD(i).Location);
+for i = 1:length(sessnums)
+    cd(MD(sessnums(i)).Location);
     load ProcOut;
     NT{i} = NumTransients/NumFrames*20*60;
 end
@@ -50,12 +50,15 @@ for i = 1:size(nmap,1)
 
 
 end
-figure;hist(NumSessActive,0:max(NumSessActive));xlabel('Number of sessions active');ylabel('Number of neurons');
+figure;
+[bcounts,bcenters] = hist(NumSessActive,0:max(NumSessActive));
+xlabel('Number of sessions active');ylabel('Number of neurons');set(gca,'XLim',[0.5 max(NumSessActive)]);
 
 for i = 1:size(nmap,1)
 mt(i) = mean(TRates{i});
 end
 
+figure;
 plot(NumSessActive,mt,'*');
 
 keyboard
