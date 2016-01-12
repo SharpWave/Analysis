@@ -1,0 +1,11 @@
+clear all;
+% Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_06_2015','sess_num',1)
+% Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_06_2015','sess_num',2)
+% Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_10_2015','sess_num',1)
+% Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_11_2015','sess_num',1)
+% Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_12_2015','sess_num',1)
+% Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_12_2015','sess_num',2)
+%Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_13_2015','sess_num',1)
+%Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_13_2015','sess_num',2)
+%Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_14_2015','sess_num',1)
+Tenaspis('Obj_1 - ICsm.h5','animal_id','GCamp6f_45','sess_date','08_18_2015','sess_num',1)

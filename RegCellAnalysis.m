@@ -1,9 +1,10 @@
-function [bcounts,bcenters,TRates] = RegCellAnalysis(sessnums)
+function [bcounts,bcenters,TRates] = RegCellAnalysis(animalID)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 close all;
 cd('C:\MasterData');
 load MasterDirectory;
+sessnums = GetSessNums(animalID)
 cd(MD(sessnums(1)).Location);
 load Reg_NeuronIDs.mat;
 
@@ -68,4 +69,24 @@ end
 figure;
 plot(mt,NumSessActive,'*');hold on;plot(mmt,1:max(NumSessActive),'-r');
 [rval,pval] = corr(mt',NumSessActive')
+
+for i = 1:size(isactive,1)
+    NumPrevSilent = 0;
+    NumPrevActive = 0;
+    NumPrevSilentActs = 0;
+    NumPrevActiveActs = 0;
+    for j = 2:size(isactive,2)
+        if (isactive(i,j-1))
+            NumPrevActive = NumPrevActive+1;
+            NumPrevActiveActs = NumPrevActiveActs+isactive(i,j);
+        else
+            NumPrevSilent = NumPrevSilent+1;
+            NumPrevSilentActs = NumPrevSilentActs+isactive(i,j);
+        end
+    end
+    pActiveAct(i) = NumPrevActiveActs/NumPrevActive;
+    pSilentAct(i) = NumPrevSilentActs/NumPrevSilent;
+end
+            
+        
 keyboard;
