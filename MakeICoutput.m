@@ -71,11 +71,11 @@ for i = 1:NumGoodIC
     ROI{i} = zeros(size(BinaryIC{cidx}));
     xCent = Props{cidx}.Centroid(1);
     yCent = Props{cidx}.Centroid(2);
-    xMin = max(xCent-sqRad,1);
-    xMax = min(xCent+sqRad,size(BinaryIC{cidx},2));
+    xMin = ceil(max(xCent-sqRad,1));
+    xMax = ceil(min(xCent+sqRad,size(BinaryIC{cidx},2)));
     
-    yMin = max(yCent-sqRad,1);
-    yMax = min(yCent+sqRad,size(BinaryIC{cidx},1));
+    yMin = ceil(max(yCent-sqRad,1));
+    yMax = ceil(min(yCent+sqRad,size(BinaryIC{cidx},1)));
     ROI{i}(yMin:yMax,xMin:xMax) = 1;% centroid pixel +- square radius 1/4 the long axis length
     PixelList{i} = find(ROI{i});
     if (length(PixelList{i}) == 0)
