@@ -2,6 +2,7 @@ function [] = MakeICoutput(NumIC)
 
 % read in IC, interpret them, save as similar to NeuronImage and
 % NeuronPixels.  weighted AND binarry
+orig_dir = pwd;
 
 % select Obj_1 directory
 dirname = uigetdir;
@@ -108,6 +109,8 @@ NeuronImage = ICimage;
 for i = 1:length(NeuronImage)
     NeuronPixels{i} = find(NeuronImage{i});
 end
+
+cd(orig_dir);
 
 save ProcOutIC.mat FT NeuronImage NeuronPixels;
 
