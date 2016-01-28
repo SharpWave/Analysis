@@ -103,6 +103,14 @@ end
 
 save ICoutput.mat ICtrace ICFT ICimage ICprops CaTrRate RawICimage
 
+FT = ICFT;
+NeuronImage = ICimage;
+for i = 1:length(NeuronImage)
+    NeuronPixels{i} = find(NeuronImage{i});
+end
+
+save ProcOutIC.mat FT NeuronImage NeuronPixels;
+
 
 % update data structures
 
