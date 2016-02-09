@@ -10,13 +10,12 @@ cd(dirname);
 display('loading data');
 for i = 1:NumIC
     % get the things
-    load(['Obj_',int2str(i),'_1 - IC filter',int2str(i),'.mat']);
+    load(['Obj_',int2str(i),'_1 - IC filter ',int2str(i),'.mat']);
     RawIC{i} = Object.Data;
     maxval(i) = max(RawIC{i}(:));
     BinaryIC{i} = RawIC{i} > maxval(i)/2;
-    load(['Obj_',int2str(i),'_2 - IC trace',int2str(i),'.mat']);
+    load(['Obj_',int2str(i),'_2 - IC trace ',int2str(i),'.mat']);
     RawICtrace{i} = Object.Data;
-    cd ..
 end
 
 % apply inclusion thresholds; see Tonegawa % Schnitzer Sun et al PNAS:
