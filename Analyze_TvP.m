@@ -8,7 +8,8 @@ load(matfile);
 [~,~,~,FT,~,~,~,fStart] = AlignImagingToTracking(0.1,FT);
 [~,~,~,ICFT,~,~,~,fStart] = AlignImagingToTracking(0.1,ICFT);
 
-
+GoodFT = find(sum(FT') > 0);
+GoodICFT = find(sum(ICFT') > 0);
 
 
 for i = 1:length(ICimage)
