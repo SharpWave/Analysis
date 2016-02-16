@@ -100,7 +100,7 @@ for i = 1:NumGoodIC
 end
 
 
-save ICoutput.mat ICtrace ICFT ICimage ICprops CaTrRate RawICimage
+
 
 FT = ICFT;
 NeuronImage = ICimage;
@@ -109,7 +109,7 @@ for i = 1:length(NeuronImage)
 end
 
 cd(orig_dir);
-
+save ICoutput.mat ICtrace ICFT ICimage ICprops CaTrRate; 
 save ProcOutIC.mat FT NeuronImage NeuronPixels;
 
 

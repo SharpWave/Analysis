@@ -25,7 +25,6 @@ end
 
 FrameLoaded = zeros(1,NumFrames);
 
-
 NumTimesLoaded = sum(FT)+sum(ICFT);
 [val,idx] = sort(NumTimesLoaded);
 curr = length(idx);
