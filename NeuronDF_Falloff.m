@@ -1,11 +1,13 @@
-function [ output_args ] = NeuronDF_Falloff(filename)
+function [AF,Dists] = NeuronDF_Falloff(filename)
+
+close all;
 
 [~,Xdim,Ydim,NumFrames] = loadframe(filename,1);
 load('T2output.mat','FT','NeuronImage');
 
 NumNeurons = size(FT,1);
 
-PixelRad = 50;
+PixelRad = 75;
 
 for i = -PixelRad:PixelRad
     for j = -PixelRad:PixelRad
@@ -39,11 +41,12 @@ end
 
 
 
-NumGoodNeurons = sum(~EdgeN);
-GoodN = find(~EdgeN);
+%NumGoodNeurons = sum(~EdgeN);
+GoodN = intersect(find(~EdgeN),find(sum(FT')>0));
 Xcent = Xcent(GoodN);
 Ycent = Ycent(GoodN);
 FT = FT(GoodN,:);
+NumGoodNeurons = length(GoodN);
 
 for i = 1:NumGoodNeurons
     AvgF{i} = zeros(PixelRad*2+1,PixelRad*2+1);
@@ -54,38 +57,35 @@ for i = 1:NumFrames
     ActiveN = find(FT(:,i));
     for j = 1:length(ActiveN)
         curr = ActiveN(j);
-       % i,j,Xcent(curr),Ycent(curr),
+        % i,j,Xcent(curr),Ycent(curr),
         AvgF{curr} = AvgF{curr} + frame((Xcent(curr)-PixelRad):(Xcent(curr)+PixelRad),(Ycent(curr)-PixelRad):(Ycent(curr)+PixelRad));
     end
 end
 
 
 
-for i = NumGoodNeurons
+for i = 1:NumGoodNeurons
     % normalize by # of active frames
     AvgF{i} = AvgF{i}./sum(FT(i,:));
     
     % normalize by centroid intensity
-    AvgF{i} = AvgF{i}./AvgF{i}(PixelRad,PixelRad);
+    AvgF{i} = AvgF{i}./AvgF{i}(PixelRad+1,PixelRad+1);
     FallOff{i} = zeros(1,length(Dists));
     
-    for j = 1:PixelRad^2
+    for j = 1:((PixelRad*2+1)^2)
+        
         FallOff{i}(DistBin(j)) = FallOff{i}(DistBin(j)) + AvgF{i}(j)/DistCount(DistBin(j));
     end
 end
 
-keyboard;
+AF = zeros(NumGoodNeurons,length(FallOff{1}));
+for i = 1:NumGoodNeurons
+    i
+    AF(i,:) = FallOff{i};
+end
 
-        
-        
+% check not within x pixels of an edge
 
-
-
-    
-    
-    
-    % check not within x pixels of an edge
-    
 
 % for every neuron
 % get centroid
@@ -94,7 +94,7 @@ keyboard;
 % calculate intensity of all pixels within a 40 pixel radius
 
 % average all falloff curves
-% establish 
+% establish
 
 
 end
