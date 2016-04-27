@@ -43,8 +43,24 @@ end
 
 %NumGoodNeurons = sum(~EdgeN);
 GoodN = intersect(find(~EdgeN),find(sum(FT')>0));
+
+distmat = squareform(pdist([Xcent',Ycent']));
+
+distmat = distmat(GoodN,:);
 Xcent = Xcent(GoodN);
 Ycent = Ycent(GoodN);
+
+ % yes, what I intended to do.
+bins = 0:5:500;
+for i = 1:size(distmat,1)
+   
+    
+    n(i,:) = hist(distmat(i,setdiff((1:size(distmat,2)),i)),bins);
+    n(i,:) = n(i,:)./(size(distmat,1)-1);
+end
+
+
+
 FT = FT(GoodN,:);
 NumGoodNeurons = length(GoodN);
 
@@ -80,7 +96,6 @@ end
 
 AF = zeros(NumGoodNeurons,length(FallOff{1}));
 for i = 1:NumGoodNeurons
-    i
     AF(i,:) = FallOff{i};
 end
 
@@ -96,6 +111,7 @@ end
 % average all falloff curves
 % establish
 
+save DFFalloff.mat AF Dists n bins;
 
 end
 
