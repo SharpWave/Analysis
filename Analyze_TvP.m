@@ -5,8 +5,8 @@ load(matfile);
 
 % load motion-ADJUSTED FT and ICFT - replicate the truncation procedures in
 % CalculatePlacefields
-[~,~,~,FT,~,~,~,fStart] = AlignImagingToTracking(0.1,FT);
-[~,~,~,ICFT,~,~,~,fStart] = AlignImagingToTracking(0.1,ICFT);
+%[~,~,~,FT,~,~,~,fStart] = AlignImagingToTracking(0.1,FT);
+%[~,~,~,ICFT,~,~,~,fStart] = AlignImagingToTracking(0.1,ICFT);
 
 GoodFT = find(sum(FT') > 0);
 GoodICFT = find(sum(ICFT') > 0);
