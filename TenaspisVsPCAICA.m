@@ -22,7 +22,7 @@ for i = 1:length(NeuronImage)
         Cdist(i,j) = CluDist(i,j+length(NeuronImage));
     end
 end
-
+NumFrames = size(FT,2);
 FrameLoaded = zeros(1,NumFrames);
 
 NumTimesLoaded = sum(FT)+sum(ICFT);
