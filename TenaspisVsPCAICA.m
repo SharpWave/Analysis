@@ -1,8 +1,8 @@
 function [] = TenaspisVsPCAICA(moviefile)
 
-load ProcOut.mat;
+load T2output.mat;
 load ICoutput.mat;
-load DumbTraces.mat;
+%load DumbTraces.mat;
 
 for i = 1:length(NeuronImage)
     Tprops{i} = regionprops(NeuronImage{i});
