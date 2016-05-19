@@ -26,10 +26,7 @@ for i = 1:length(NeuronImage)
     
     tEpochs = NP_FindSupraThresholdEpochs(FT(i,:),eps);
     Num_T_Transients(i) = size(tEpochs,1);
-    
-    iEpochs = NP_FindSupraThresholdEpochs(ICFT(i,:),eps);
-    Num_ClosestI_Transients(i) = size(iEpochs,1);
-    
+
     Num_Matching_Transients(i) = 0;
     for j = 1:Num_T_Transients(i)
       if (sum(ICFT(cidx,tEpochs(j,1):tEpochs(j,2))) > 0)
@@ -38,7 +35,9 @@ for i = 1:length(NeuronImage)
     end
         
     Fraction_T_Matched(i) = Num_Matching_Transients(i)./Num_T_Transients(i);
-    Fraction_ClosestI_Matched(i) = Num_Matching_Transients(i)./Num_ClosestI_Transients(i);
+   
 end
 
-keyboard;
+save TvP_analysis.mat;
+
+

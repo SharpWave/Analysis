@@ -52,6 +52,17 @@ load ICoutput.mat;
 
 NumNeurons = size(ICFT,1);
 
+disp('smoothing and normalizing traces');
+for i = 1:NumNeurons
+    temptrace(i,:) = zscore(ICtrace(i,:));
+    temptrace(i,:) = convtrim(temptrace(i,:),ones(1,10)./10);
+    temptrace(i,1:10) = 0;
+    temptrace(i,(end-10):end) = 0;
+    difftrace(i,2:NumFrames) = diff(temptrace(i,:)); % Get temporal derivative of each trace
+    difftrace(i,1:11) = 0; % Set 10 first frames to 0
+    difftrace(i,end-11:end) = 0; % Set 10 last frames to 0
+end
+
 %% Calculate Good Slopes
 disp('Calculating good slopes...')
 
