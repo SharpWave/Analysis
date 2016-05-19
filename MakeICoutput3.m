@@ -5,8 +5,10 @@ function [] = MakeICoutput3(NumIC,varname)
 orig_dir = pwd;
 
 % select Obj_1 directory
-dirname = uigetdir;
-cd(dirname);
+%dirname = uigetdir;
+load singlesessionmask.mat;
+cd([orig_dir,'\IC',int2str(NumIC),'-Objects\Obj_1']);
+
 display('loading data');
 for i = 1:NumIC
     % get the things
@@ -20,8 +22,8 @@ for i = 1:NumIC
     cd ..
 end
 
-dirname = uigetdir;
-cd(dirname);
+
+cd([orig_dir,'\ICEvent',int2str(NumIC),'-Objects\Obj_1']);
 display('loading data');
 for i = 1:NumIC
     % get the things
@@ -32,7 +34,7 @@ for i = 1:NumIC
     cd ..
 end
 
-
+cd(orig_dir);
 % apply inclusion thresholds; see Tonegawa % Schnitzer Sun et al PNAS:
 %
 % Finally, it was processed by custom-made code written in ImageJ [dividing
@@ -61,6 +63,8 @@ end
 
 GoodIC = zeros(size(NumIC));
 display('eliminating bad ICs');
+
+
 for i = 1:NumIC
     Props{i} = regionprops(BinaryIC{i},'all');
     if (length(Props{i}) > 1)
@@ -71,6 +75,10 @@ for i = 1:NumIC
         GoodIC(i) = 1;
     else
         display(['Bad IC #',int2str(i)]);
+    end
+    if (neuronmask(ceil(Props{i}.Centroid(2)),ceil(Props{i}.Centroid(1))) == 0)
+        GoodIC(i) = 0;
+        display(['Bad IC boundaries#',int2str(i)]);
     end
 end
 
@@ -114,23 +122,23 @@ for i = 1:NumGoodIC
    ICdifftrace(i,:) = diff(ICsmtrace(i,:));
    slopes = find(ICrising{i} > 0);
    for j = 1:length(slopes)
-       curr = j;
+       curr = (slopes(j));
        ICFT(i,curr) = 1;
-       curr = max(j-1,1);
+       curr = max(curr-1,1);
        while((ICdifftrace(i,curr) > 0) && (curr > 1))
            ICFT(i,curr) = 1;
            curr = curr-1;
        end
-       curr = min(j+1,(NumFrames-1));
+       curr = min(slopes(j)+1,(NumFrames-1));
        while((ICdifftrace(i,curr)>0) && (curr < (NumFrames-1)))
            ICFT(i,curr) = 1;
            curr = curr+1;
        end
    end
 end
+  
        
-       
-keyboard;
+
 
 FT = ICFT;
 NeuronImage = ICimage;
@@ -139,7 +147,7 @@ for i = 1:length(NeuronImage)
 end
 
 cd(orig_dir);
-save ICoutput.mat ICtrace ICFT ICimage ICprops; 
+save ICoutput.mat ICtrace ICFT ICimage ICprops ICsmtrace ICdifftrace; 
 save ProcOutIC.mat FT NeuronImage NeuronPixels;
 
 
