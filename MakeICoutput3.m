@@ -20,6 +20,19 @@ for i = 1:NumIC
     cd ..
 end
 
+dirname = uigetdir;
+cd(dirname);
+display('loading data');
+for i = 1:NumIC
+    % get the things
+    cd(['Obj_',int2str(i)]);
+   
+    load(['Obj_2 - IC trace ',int2str(i),'-events.mat']);
+    ICrising{i} = Object.Data;
+    cd ..
+end
+
+
 % apply inclusion thresholds; see Tonegawa % Schnitzer Sun et al PNAS:
 %
 % Finally, it was processed by custom-made code written in ImageJ [dividing
@@ -83,26 +96,41 @@ for i = 1:NumGoodIC
         keyboard;
     end
     ICtrace(i,:) = RawICtrace{cidx};
-    ICFT(i,:) = RawICtrace{cidx} > 3;
+   
     
 end
 
 ICimage = BinaryIC(GoodICidx);
 RawICimage = RawIC(GoodICidx);
 ICprops = Props(GoodICidx);
+ICrising = ICrising(GoodICidx);
 
-NumFrames = size(ICFT,2);
-% make Ca2+ transients per sec traces for each neuron
+NumFrames = length(RawICtrace{1});
+ICFT = zeros(NumGoodIC,NumFrames);
+
+% Interpret slopes the same way as Tenaspis
 for i = 1:NumGoodIC
-    temp = NP_FindSupraThresholdEpochs(ICFT(i,:),eps,0);
-    CaTrStart = temp(:,1);
-    CaTrBool = zeros(1,NumFrames);
-    CaTrBool(CaTrStart) = 1;
-    CaTrRate(i,:) = convtrim(CaTrBool,ones(1,20));
+   ICsmtrace(i,:) = convtrim(ICtrace(i,:),ones(1,10)./10);
+   ICdifftrace(i,:) = diff(ICsmtrace(i,:));
+   slopes = find(ICrising{i} > 0);
+   for j = 1:length(slopes)
+       curr = j;
+       ICFT(i,curr) = 1;
+       curr = max(j-1,1);
+       while((ICdifftrace(i,curr) > 0) && (curr > 1))
+           ICFT(i,curr) = 1;
+           curr = curr-1;
+       end
+       curr = min(j+1,(NumFrames-1));
+       while((ICdifftrace(i,curr)>0) && (curr < (NumFrames-1)))
+           ICFT(i,curr) = 1;
+           curr = curr+1;
+       end
+   end
 end
-
-
-
+       
+       
+keyboard;
 
 FT = ICFT;
 NeuronImage = ICimage;
@@ -111,7 +139,7 @@ for i = 1:length(NeuronImage)
 end
 
 cd(orig_dir);
-save ICoutput.mat ICtrace ICFT ICimage ICprops CaTrRate; 
+save ICoutput.mat ICtrace ICFT ICimage ICprops; 
 save ProcOutIC.mat FT NeuronImage NeuronPixels;
 
 
