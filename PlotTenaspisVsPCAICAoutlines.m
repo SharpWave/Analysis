@@ -31,7 +31,7 @@ for i = 1:length(UnusedIC)
     b = bwboundaries(ICimage{UnusedIC(i)});
     y = b{1}(:,1);
     x = b{1}(:,2);
-    plot(x,y,'-m','LineWidth',2.5);
+    plot(x,y,'-','Color',[0.871 0.49 0],'LineWidth',2.5);
 end
 
 axis square;
