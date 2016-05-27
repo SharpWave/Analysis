@@ -41,6 +41,58 @@ for i = 1:length(NeuronImage)
     T_Score(i) = Num_Matching_Transients(i)./min(Num_T_Transients(i),Num_I_Transients(i));
 end
 
+% now, divide Tenaspis neurons into 3ish groups:
+% 1: Has closely matching IC shared with no other ROI
+% 2: Has a closely matching IC that is shared with another neuron
+% 3: Has a poorly matching IC
+% 4: Has no matching IC
+
+CloseDist = 4; % Minimum centroid distance to be considered a close match
+MinOverlap = 0.8; % Minimum fraction of ROI pixels in common with IC to be considered a close match
+
+for i = 1:length(NeuronImage)
+   cidx = ClosestT(i);
+   
+   % check if closest is unique
+   if (length(find(ClosestT == cidx)) > 1)
+       UniqueIC(i) = 0;
+   else
+       UniqueIC(i) = 1;
+   end
+   
+   if (FractionOverlap(i) == 0)
+       NoMatch(i) = 1;
+   else
+       NoMatch(i) = 0;
+   end
+   
+   % Check for a good match
+   if (mindist(i) < CloseDist) && (FractionOverlap(i) > MinOverlap)
+       CloseMatch(i) = 1;
+   else
+       CloseMatch(i) = 0;
+   end
+   
+   if (CloseMatch(i) && UniqueIC(i))
+       ROIgroup(i) = 1;
+       continue;
+   end
+   
+   if (CloseMatch(i) && ~UniqueIC(i))
+       ROIgroup(i) = 2;
+       continue;
+   end
+   
+   if (~NoMatch(i))
+       ROIgroup(i) = 3;
+   end
+   
+   ROIgroup(i) = 4;
+end
+       
+   
+   
+
 save TvP_analysis.mat;
 
 
