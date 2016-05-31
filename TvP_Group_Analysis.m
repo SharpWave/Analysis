@@ -13,11 +13,11 @@ All_Num_I_Transients = [];
 All_Num_Matching_Transients = [];
 All_Num_T_Transients = [];
 All_T_Score = [];
-
+All_ROIgroup = [];
 
 for i = 1:length(dr)
     cd(dr{i});
-    load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score');
+    load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup');
     All_Fraction_T_Matched = [All_Fraction_T_Matched,Fraction_T_Matched];
     All_FractionOverlap = [All_FractionOverlap,FractionOverlap];
     All_mindist = [All_mindist,mindist];
@@ -25,6 +25,7 @@ for i = 1:length(dr)
     All_Num_Matching_Transients = [All_Num_Matching_Transients,Num_Matching_Transients];
     All_Num_T_Transients = [All_Num_T_Transients,Num_T_Transients];
     All_T_Score = [All_T_Score,T_Score];
+    All_ROIgroup = [All_ROIgroup,ROIgroup];
 end
 
 keyboard;

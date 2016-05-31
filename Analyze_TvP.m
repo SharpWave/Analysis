@@ -85,6 +85,7 @@ for i = 1:length(NeuronImage)
    
    if (~NoMatch(i))
        ROIgroup(i) = 3;
+       continue;
    end
    
    ROIgroup(i) = 4;
