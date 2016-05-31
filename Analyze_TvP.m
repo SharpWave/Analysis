@@ -53,11 +53,16 @@ MinOverlap = 0.8; % Minimum fraction of ROI pixels in common with IC to be consi
 for i = 1:length(NeuronImage)
    cidx = ClosestT(i);
    
+   matches = find(ClosestT == cidx);
+   UniqueIC(i) = 1;
    % check if closest is unique
-   if (length(find(ClosestT == cidx)) > 1)
-       UniqueIC(i) = 0;
-   else
-       UniqueIC(i) = 1;
+   if (length(matches) > 1)
+       % check if any of the shared are close
+       for j = 1:length(matches)
+           if ((matches(j) ~= i)  && (mindist(matches(j)) < CloseDist))
+             UniqueIC(i) = 0;
+           end
+       end
    end
    
    if (FractionOverlap(i) == 0)
