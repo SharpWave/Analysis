@@ -1,17 +1,17 @@
 function [ output_args ] = PlotTenaspisVsPCAICAoutlines( input_args )
 
 load T2output.mat;
-load TvP_analysis.mat;
+load ('TvP_analysis.mat','ICFT','ICimage','ClosestT','ROIgroup');
 
 NumTNeurons = size(FT,1);
 NumFrames = size(FT,2);
 
 figure;
-colors{1} = 'k';
-colors{2} = 'b';
-colors{3} = 'm';
-colors{4} = 'c';
-colors{5} = 'g';
+colors{1} = 'r';
+colors{2} = 'm';
+colors{3} = 'c';
+colors{4} = 'b';
+
 
 for i = 1:NumTNeurons
     
@@ -26,18 +26,18 @@ for i = 1:NumTNeurons
     b = bwboundaries(ICimage{cidx});
     y = b{1}(:,1);
     x = b{1}(:,2);
-    plot(x,y,'-r','LineWidth',2.5);
+    plot(x,y,'-k','LineWidth',2);
     
 end
 
 UnusedIC = setdiff(1:length(ICimage),ClosestT);
 
-for i = 1:length(UnusedIC)
-    b = bwboundaries(ICimage{UnusedIC(i)});
-    y = b{1}(:,1);
-    x = b{1}(:,2);
-    plot(x,y,'-','Color',[0.871 0.49 0],'LineWidth',2.5);
-end
+% for i = 1:length(UnusedIC)
+%     b = bwboundaries(ICimage{UnusedIC(i)});
+%     y = b{1}(:,1);
+%     x = b{1}(:,2);
+%     plot(x,y,'--r','LineWidth',2);
+% end
 
 axis square;
 axis tight;

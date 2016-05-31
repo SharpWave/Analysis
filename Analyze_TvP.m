@@ -48,7 +48,7 @@ end
 % 4: Has no matching IC
 
 CloseDist = 4; % Minimum centroid distance to be considered a close match
-MinOverlap = 0.8; % Minimum fraction of ROI pixels in common with IC to be considered a close match
+MinOverlap = 0.67; % Minimum fraction of ROI pixels in common with IC to be considered a close match
 
 for i = 1:length(NeuronImage)
     
@@ -63,6 +63,9 @@ for i = 1:length(NeuronImage)
     else
         CenterMatch(i) = 0;
     end
+end
+
+for i = 1:length(NeuronImage)
     
     cidx = ClosestT(i);
     
@@ -72,7 +75,7 @@ for i = 1:length(NeuronImage)
     if (length(matches) > 1)
         % check if any of the shared are close
         for j = 1:length(matches)
-            if ((matches(j) ~= i)  && (CenterMatch(matches(j))) && (PixelMatch(matches(j))) )
+            if ((matches(j) ~= i)  && CenterMatch(matches(j)) && PixelMatch(matches(j)) )
                 UniqueMatch(i) = 0;
             end
         end
