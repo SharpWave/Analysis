@@ -20,7 +20,7 @@ All_ICFT = [];
 
 for i = 1:length(dr)
     cd(dr{i});
-    %Analyze_TvP('TvP.mat');
+    Analyze_TvP('TvP.mat');
     load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT');
     All_Fraction_T_Matched = [All_Fraction_T_Matched,Fraction_T_Matched];
     All_FractionOverlap = [All_FractionOverlap,FractionOverlap];

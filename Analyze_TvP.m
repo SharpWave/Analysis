@@ -29,14 +29,14 @@ for i = 1:length(NeuronImage)
     
     iEpochs = NP_FindSupraThresholdEpochs(ICFT(cidx,:),eps);
     Num_I_Transients(i) = size(iEpochs,1);
-
+    
     Num_Matching_Transients(i) = 0;
     for j = 1:Num_T_Transients(i)
-      if (sum(ICFT(cidx,tEpochs(j,1):tEpochs(j,2))) > 0)
-         Num_Matching_Transients(i) = Num_Matching_Transients(i) + 1;
-      end
+        if (sum(ICFT(cidx,tEpochs(j,1):tEpochs(j,2))) > 0)
+            Num_Matching_Transients(i) = Num_Matching_Transients(i) + 1;
+        end
     end
-        
+    
     Fraction_T_Matched(i) = Num_Matching_Transients(i)./Num_T_Transients(i);
     T_Score(i) = Num_Matching_Transients(i)./min(Num_T_Transients(i),Num_I_Transients(i));
 end
@@ -51,53 +51,58 @@ CloseDist = 4; % Minimum centroid distance to be considered a close match
 MinOverlap = 0.8; % Minimum fraction of ROI pixels in common with IC to be considered a close match
 
 for i = 1:length(NeuronImage)
-   cidx = ClosestT(i);
-   
-   matches = find(ClosestT == cidx);
-   UniqueIC(i) = 1;
-   % check if closest is unique
-   if (length(matches) > 1)
-       % check if any of the shared are close
-       for j = 1:length(matches)
-           if ((matches(j) ~= i)  && (mindist(matches(j)) < CloseDist))
-             UniqueIC(i) = 0;
-           end
-       end
-   end
-   
-   if (FractionOverlap(i) == 0)
-       NoMatch(i) = 1;
-   else
-       NoMatch(i) = 0;
-   end
-   
-   % Check for a good match
-   if (mindist(i) < CloseDist) && (FractionOverlap(i) > MinOverlap)
-       CloseMatch(i) = 1;
-   else
-       CloseMatch(i) = 0;
-   end
-   
-   if (CloseMatch(i) && UniqueIC(i))
-       ROIgroup(i) = 1;
-       continue;
-   end
-   
-   if (CloseMatch(i) && ~UniqueIC(i))
-       ROIgroup(i) = 2;
-       continue;
-   end
-   
-   if (~NoMatch(i))
-       ROIgroup(i) = 3;
-       continue;
-   end
-   
-   ROIgroup(i) = 4;
+    
+    if (FractionOverlap(i) > MinOverlap)
+        PixelMatch(i) = 1;
+    else
+        PixelMatch(i) = 0;
+    end
+    
+    if (mindist(i) < CloseDist)
+        CenterMatch(i) = 1;
+    else
+        CenterMatch(i) = 0;
+    end
+    
+    cidx = ClosestT(i);
+    
+    matches = find(ClosestT == cidx);
+    UniqueMatch(i) = 1;
+    % check if closest is unique
+    if (length(matches) > 1)
+        % check if any of the shared are close
+        for j = 1:length(matches)
+            if ((matches(j) ~= i)  && (CenterMatch(matches(j))) && (PixelMatch(matches(j))) )
+                UniqueMatch(i) = 0;
+            end
+        end
+    end
+    
+    % Check for a good match
+    if (CenterMatch(i) && PixelMatch(i) && UniqueMatch(i))
+        % Good, unique match
+        ROIgroup(i) = 1;
+        continue;
+    end
+    
+    if (CenterMatch(i) && PixelMatch(i) && ~UniqueMatch(i))
+        % Good match, not unique
+        ROIgroup(i) = 2;
+        continue;
+    end
+    
+    if (~CenterMatch(i) && PixelMatch(i))
+        % Offset match
+        ROIgroup(i) = 3;       
+    else 
+        % no match
+        ROIgroup(i) = 4;        
+    end
 end
-       
-   
-   
+
+
+
+
 
 save TvP_analysis.mat;
 

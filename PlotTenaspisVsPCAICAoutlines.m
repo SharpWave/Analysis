@@ -7,6 +7,11 @@ NumTNeurons = size(FT,1);
 NumFrames = size(FT,2);
 
 figure;
+colors{1} = 'k';
+colors{2} = 'b';
+colors{3} = 'm';
+colors{4} = 'c';
+colors{5} = 'g';
 
 for i = 1:NumTNeurons
     
@@ -14,7 +19,7 @@ for i = 1:NumTNeurons
     y = b{1}(:,1);
     x = b{1}(:,2);
     hold on;
-    plot(x,y,'-b','LineWidth',1.5);
+    plot(x,y,'-','LineWidth',1.5,'Color',colors{ROIgroup(i)});
     
     cidx = ClosestT(i);
     
