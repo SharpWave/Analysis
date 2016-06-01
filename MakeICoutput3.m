@@ -76,7 +76,7 @@ for i = 1:NumIC
     else
         display(['Bad IC #',int2str(i)]);
     end
-    if (neuronmask(ceil(Props{i}.Centroid(2)),ceil(Props{i}.Centroid(1))) == 0)
+    if (length(intersect(find(BinaryIC{i}),find(neuronmask == 0)) > 0))
         GoodIC(i) = 0;
         display(['Bad IC boundaries#',int2str(i)]);
     end
