@@ -10,6 +10,7 @@ All_Fraction_T_Matched = [];
 All_FractionOverlap = [];
 All_mindist = [];
 All_Num_I_Transients = [];
+All_Num_Closest_I_Transients = [];
 All_Num_Matching_Transients = [];
 All_Num_T_Transients = [];
 All_T_Score = [];
@@ -18,14 +19,16 @@ All_Animal = [];
 All_FT = [];
 All_ICFT = [];
 
+
 for i = 1:length(dr)
     cd(dr{i});
     Analyze_TvP('TvP.mat');
-    load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT');
+    load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients');
     All_Fraction_T_Matched = [All_Fraction_T_Matched,Fraction_T_Matched];
     All_FractionOverlap = [All_FractionOverlap,FractionOverlap];
     All_mindist = [All_mindist,mindist];
     All_Num_I_Transients = [All_Num_I_Transients,Num_I_Transients];
+    All_Num_Closest_I_Transients = [All_Num_Closest_I_Transients,Num_Closest_I_Transients];
     All_Num_Matching_Transients = [All_Num_Matching_Transients,Num_Matching_Transients];
     All_Num_T_Transients = [All_Num_T_Transients,Num_T_Transients];
     All_T_Score = [All_T_Score,T_Score];
