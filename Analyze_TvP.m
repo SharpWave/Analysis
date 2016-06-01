@@ -30,9 +30,14 @@ for i = 1:length(NeuronImage)
     iEpochs = NP_FindSupraThresholdEpochs(ICFT(cidx,:),eps);
     Num_Closest_I_Transients(i) = size(iEpochs,1);
     
+    temp = zeros(1,size(ICFT,2));
+    for j = 1:Num_Closest_I_Transients(i)
+        temp(iEpochs(j,1):iEpochs(j,2)) = 1;
+    end
+    
     Num_Matching_Transients(i) = 0;
     for j = 1:Num_T_Transients(i)
-        if (sum(ICFT(cidx,tEpochs(j,1):tEpochs(j,2))) > 0)
+        if (sum(temp(tEpochs(j,1):tEpochs(j,2))) > 0)
             Num_Matching_Transients(i) = Num_Matching_Transients(i) + 1;
         end
     end
