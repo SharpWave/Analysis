@@ -136,8 +136,26 @@ for i = 1:NumGoodIC
        end
    end
 end
-  
-       
+
+clear GoodIC;
+for i = 1:size(ICFT,1)
+    iEpochs = NP_FindSupraThresholdEpochs(ICFT(i,:),eps);
+    Num_Transients = size(iEpochs,1);
+    GoodIC(i) = Num_Transients > 0;
+    if (~GoodIC(i))
+        display(['ROI ',int2str(i),' had no transients']);
+    end
+end
+
+GoodICidx = find(GoodIC);
+
+ICFT = ICFT(GoodICidx,:);
+ICtrace = ICtrace(GoodICidx,:);
+ICsmtrace = ICsmtrace(GoodICidx,:);
+ICdifftrace = ICdifftrace(GoodICidx,:);
+ICimage = ICimage(GoodICidx);
+ICprops = ICprops(GoodICidx);
+
 
 
 FT = ICFT;
