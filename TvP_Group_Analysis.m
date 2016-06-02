@@ -22,6 +22,7 @@ All_ICFT = [];
 
 for i = 1:length(dr)
     cd(dr{i});
+    TenaspisVsPCAICA('DFF.h5')
     Analyze_TvP('TvP.mat');
     load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients');
     All_Fraction_T_Matched = [All_Fraction_T_Matched,Fraction_T_Matched];
