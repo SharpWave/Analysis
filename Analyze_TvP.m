@@ -26,9 +26,11 @@ for i = 1:length(NeuronImage)
     
     tEpochs = NP_FindSupraThresholdEpochs(FT(i,:),eps);
     Num_T_Transients(i) = size(tEpochs,1);
+    T_TranDur{i} = tEpochs(:,2)-tEpochs(:,1)+1;
     
     iEpochs = NP_FindSupraThresholdEpochs(ICFT(cidx,:),eps);
     Num_Closest_I_Transients(i) = size(iEpochs,1);
+    
     
     temp = zeros(1,size(ICFT,2));
     for j = 1:Num_Closest_I_Transients(i)
@@ -49,6 +51,7 @@ end
 for i = 1:length(ICimage)
     iEpochs = NP_FindSupraThresholdEpochs(ICFT(i,:),eps);
     Num_I_Transients(i) = size(iEpochs,1);
+    I_TranDur{i} = iEpochs(:,2)-iEpochs(:,1)+1;
 end
 
 % now, divide Tenaspis neurons into 3ish groups:

@@ -7,6 +7,9 @@ orig_dir = pwd;
 % select Obj_1 directory
 %dirname = uigetdir;
 load singlesessionmask.mat;
+
+MinDur = 6;
+
 cd([orig_dir,'\IC',int2str(NumIC),'-Objects\Obj_1']);
 
 display('loading data');
@@ -135,6 +138,16 @@ for i = 1:NumGoodIC
            curr = curr+1;
        end
    end
+end
+
+% kill transients lasting less than 6
+for i = 1:size(ICFT,1)
+    tEpochs = NP_FindSupraThresholdEpochs(ICFT(i,:),eps);
+    for j = 1:size(tEpochs,1)
+        if ((tEpochs(j,2)-tEpochs(j,1)+1) < MinDur)
+            ICFT(i,tEpochs(j,1):tEpochs(j,2)) = 0;
+        end
+    end
 end
 
 clear GoodIC;
