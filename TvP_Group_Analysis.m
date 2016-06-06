@@ -26,10 +26,10 @@ All_I_TranDur = [];
 
 for i = 1:length(dr)
     cd(dr{i});
-    DetectGoodSlopes();
-    MakeICoutput3(NumIC(i));
-    TenaspisVsPCAICA('DFF.h5')
-    Analyze_TvP('TvP.mat');
+    %DetectGoodSlopes();
+    %MakeICoutput3(NumIC(i));
+    %TenaspisVsPCAICA('DFF.h5')
+    %Analyze_TvP('TvP.mat');
     
     load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients');
     All_Fraction_T_Matched = [All_Fraction_T_Matched,Fraction_T_Matched];
@@ -57,7 +57,8 @@ for i = 1:length(dr)
         
 end
 
-
+cd('C:\MasterData');
+save TvP_Group.mat;
 
 keyboard;
     

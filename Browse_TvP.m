@@ -48,7 +48,7 @@ for i = 1:length(NeuronImage)
     plot(t,FT(i,:),'-r','LineWidth',5,'DisplayName','T. activity');hold on;
     plot(t,ICFT(idx,:),'-k','LineWidth',3,'DisplayName','ICA activity');axis tight;
     linkaxes(s,'x');
-    pause;close;
+    tempin = input('press any key to continue');close;
 end
 
 keyboard;
