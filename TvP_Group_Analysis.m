@@ -23,15 +23,18 @@ All_ICFT = [];
 All_I_Animal = [];
 All_T_TranDur = [];
 All_I_TranDur = [];
+All_T_TransientsPerMinute = [];
+All_I_TransientsPerMinute = [];
+All_Closest_I_TransientsPerMinute = [];
 
 for i = 1:length(dr)
     cd(dr{i});
     %DetectGoodSlopes();
     %MakeICoutput3(NumIC(i));
     %TenaspisVsPCAICA('DFF.h5')
-    %Analyze_TvP('TvP.mat');
+    Analyze_TvP('TvP.mat');
     
-    load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients');
+    load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients','T_TransientsPerMinute','I_TransientsPerMinute','Closest_I_TransientsPerMinute');
     All_Fraction_T_Matched = [All_Fraction_T_Matched,Fraction_T_Matched];
     All_FractionOverlap = [All_FractionOverlap,FractionOverlap];
     All_mindist = [All_mindist,mindist];
@@ -54,6 +57,10 @@ for i = 1:length(dr)
         tEpochs = NP_FindSupraThresholdEpochs(FT(j,:),eps);
         All_I_TranDur = [All_I_TranDur;tEpochs(:,2)-tEpochs(:,1)+1];
     end
+    
+    All_T_TransientsPerMinute = [All_T_TransientsPerMinute,T_TransientsPerMinute];
+    All_I_TransientsPerMinute = [All_I_TransientsPerMinute,I_TransientsPerMinute];
+    All_Closest_I_TransientsPerMinute = [All_Closest_I_TransientsPerMinute,Closest_I_TransientsPerMinute];
         
 end
 

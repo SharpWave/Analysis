@@ -118,7 +118,9 @@ end
 
 
 
-
+T_TransientsPerMinute = Num_T_Transients./size(FT,2)*20*60;
+Closest_I_TransientsPerMinute = Num_Closest_I_Transients./size(FT,2)*20*60;
+I_TransientsPerMinute = Num_I_Transients./size(FT,2)*20*60;
 
 save TvP_analysis.mat;
 
