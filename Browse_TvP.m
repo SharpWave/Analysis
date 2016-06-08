@@ -11,25 +11,31 @@ for i = 1:length(NeuronImage)
     hold on;
     plot(outT{i}{1}(:,2),outT{i}{1}(:,1),'-r');
     title(['Tenaspis Neuron #',int2str(i),' frames = ',int2str(nAFT(i))],'FontSize',8);
-    CLim = get(gca,'CLim');
+    minc = min(min(MeanT{i}((Tcent(i,1)-40):(Tcent(i,1)+40),(Tcent(i,2)-40:Tcent(i,2)+40))));
+    maxc = max(max(MeanT{i}((Tcent(i,1)-40):(Tcent(i,1)+40),(Tcent(i,2)-40:Tcent(i,2)+40))));
     set(gca,'XLim',[Tcent(i,1)-40 Tcent(i,1)+40]);
     set(gca,'YLim',[Tcent(i,2)-40 Tcent(i,2)+40]);
     idx = ClosestT(i);
-    %caxis([0 0.1]);
+    caxis([minc maxc]);colorbar;
     
-    subplot(3,3,2);imagesc(MeanI{idx});axis equal;axis tight;set(gca,'CLim',CLim');
+    subplot(3,3,2);imagesc(MeanI{idx});axis equal;axis tight;
     hold on;
     plot(outI{i}{1}(:,2),outI{i}{1}(:,1),'-k');
     title(['PCAICA Neuron #',int2str(idx),' frames = ',int2str(nAFI(idx))],'FontSize',8);
     set(gca,'XLim',[Tcent(i,1)-40 Tcent(i,1)+40]);
     set(gca,'YLim',[Tcent(i,2)-40 Tcent(i,2)+40]);
+    minc = min(min(MeanI{idx}((Tcent(i,1)-40):(Tcent(i,1)+40),(Tcent(i,2)-40:Tcent(i,2)+40))))
+    maxc = max(max(MeanI{idx}((Tcent(i,1)-40):(Tcent(i,1)+40),(Tcent(i,2)-40:Tcent(i,2)+40))))
+    caxis([minc maxc])
+    
+    
     %caxis([0 0.1]);
     subplot(3,3,3);imagesc(MeanDiff{i});hold on;axis equal;axis tight;
     plot(outT{i}{1}(:,2),outT{i}{1}(:,1),'-r');
     plot(outI{i}{1}(:,2),outI{i}{1}(:,1),'-k');
     set(gca,'XLim',[Tcent(i,1)-40 Tcent(i,1)+40]);
-    set(gca,'YLim',[Tcent(i,2)-40 Tcent(i,2)+40]);caxis([-0.1 0.1]);
-    
+    set(gca,'YLim',[Tcent(i,2)-40 Tcent(i,2)+40]);
+
     title('Ten. - PCAICA','FontSize',8);
     
     s(1) = subplot(3,3,4:6);
@@ -48,7 +54,8 @@ for i = 1:length(NeuronImage)
     plot(t,FT(i,:),'-r','LineWidth',5,'DisplayName','T. activity');hold on;
     plot(t,ICFT(idx,:),'-k','LineWidth',3,'DisplayName','ICA activity');axis tight;
     linkaxes(s,'x');
-    tempin = input('press any key to continue');close;
+    pause;
+    %tempin = input('press any key to continue');close;
 end
 
 keyboard;
