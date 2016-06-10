@@ -6,7 +6,7 @@ load ('TvP_analysis.mat','ICFT','ICimage','ClosestT','ROIgroup');
 NumTNeurons = size(FT,1);
 NumFrames = size(FT,2);
 
-figure;
+figure;set(gcf,'Renderer','OpenGl')
 colors{1} = [0 0.7 0]; % good match: darkish green
 colors{2} = 'b'; %conflict
 colors{3} = 'm'; % baddish match
@@ -27,8 +27,10 @@ for i = 1:NumTNeurons
     y = b{1}(:,1);
     x = b{1}(:,2);
     plot(x,y,'-k','LineWidth',1);
-    
+    x1{i} = x;
+    y1{i} = y;
 end
+
 
 UnusedIC = setdiff(1:length(ICimage),ClosestT);
 
@@ -37,6 +39,8 @@ for i = 1:length(UnusedIC)
     y = b{1}(:,1);
     x = b{1}(:,2);
     plot(x,y,'-','Color',[0.5 0.5 0.5],'LineWidth',1);
+    x2{i} = x;
+    y2{i} = y;
 end
 
 axis square;
