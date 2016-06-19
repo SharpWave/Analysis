@@ -1,4 +1,4 @@
-function [ output_args ] = Browse_Results()
+function [ output_args ] = Browse_Results(NeuronSet)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 load('ProcOut.mat','FT');
@@ -10,7 +10,13 @@ load ROIavg.mat;
 load T2output.mat;
 close all;
 
-for i = 1:length(NeuronImage)
+if (nargin == 0)
+    NeuronSet = 1:length(NeuronImage);
+end
+
+
+for idx = 1:length(NeuronSet)
+    i = NeuronSet(idx);
     ROIgroup(i)
     figure(1);set(gcf,'Position',[66         279        1686         699])
     subplot(4,3,1);imagesc(ROIavg{ROIidx(i)});axis equal;axis tight;
@@ -29,7 +35,7 @@ for i = 1:length(NeuronImage)
     
     set(gca,'XLim',[Xcent-40 Xcent+40]);
     set(gca,'YLim',[Ycent-40 Ycent+40]);
-    idx = ClosestT(i);
+    cidx = ClosestT(i);
     caxis([minc maxc]);colorbar;hold off;
     %keyboard;
     
@@ -60,7 +66,7 @@ for i = 1:length(NeuronImage)
     
     s(1) = subplot(4,3,4:6);
     
-    temp = ICtrace(idx,:);
+    temp = ICtrace(cidx,:);
     temp = convtrim(temp,ones(1,10)./10);
     %plot(t,zscore(temp),'-k','DisplayName','IC trace','LineWidth',1);axis tight;hold on;
     plot(t,rawtrace(ROIidx(i),:),'-r','LineWidth',1.5,'DisplayName','Raw T.trace');axis tight;hold on;
