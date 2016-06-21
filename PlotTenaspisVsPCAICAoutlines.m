@@ -1,6 +1,6 @@
 function [ output_args ] = PlotTenaspisVsPCAICAoutlines( input_args )
 
-load T2output.mat;
+load FinalOutput.mat;
 load ('TvP_analysis.mat','ICFT','ICimage','ClosestT','ROIgroup');
 
 NumTNeurons = size(FT,1);
