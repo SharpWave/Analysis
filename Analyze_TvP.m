@@ -45,7 +45,7 @@ for i = 1:length(NeuronImage)
     end
     
     Fraction_T_Matched(i) = Num_Matching_Transients(i)./Num_T_Transients(i);
-    T_Score(i) = Num_Matching_Transients(i)./min(Num_T_Transients(i),Num_Closest_I_Transients(i));
+    T_Score(i) = 2*Num_Matching_Transients(i)./(Num_T_Transients(i)+Num_Closest_I_Transients(i));
 end
 
 for i = 1:length(ICimage)

@@ -2,13 +2,8 @@ function [] = TenaspisVsPCAICA(moviefile)
 
 load FinalOutput.mat;
 load ICoutput.mat;
-
-indata{1} = FT;
-indata{2} = ICFT;
-
-outdata = MakeTrigAvg(indata);
-MeanT = outdata{1};
-MeanI = outdata{2};
+load MeanT.mat;
+load MeanI.mat;
 
 for i = 1:length(NeuronImage)
     Tprops{i} = regionprops(NeuronImage{i});

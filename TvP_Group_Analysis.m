@@ -30,7 +30,7 @@ All_Closest_I_TransientsPerMinute = [];
 for i = 1:length(dr)
     cd(dr{i});
     tic
-    Tenaspis2singlesession;
+    %Tenaspis3singlesession;
     ttime(i) = toc;
     %MakeICoutput3(NumIC(i));
     TenaspisVsPCAICA('SLPDF.h5');
@@ -69,5 +69,5 @@ end
 cd('C:\MasterData');
 save TvP_Group.mat;
 
-keyboard;
+
     

@@ -8,7 +8,7 @@ orig_dir = pwd;
 %dirname = uigetdir;
 load singlesessionmask.mat;
 
-MinDur = 6;
+MinDur = 2;
 
 cd([orig_dir,'\IC',int2str(NumIC),'-Objects\Obj_1']);
 
@@ -140,7 +140,7 @@ for i = 1:NumGoodIC
    end
 end
 
-% kill transients lasting less than 6
+% kill transients lasting less than 2
 for i = 1:size(ICFT,1)
     tEpochs = NP_FindSupraThresholdEpochs(ICFT(i,:),eps);
     for j = 1:size(tEpochs,1)
@@ -181,6 +181,10 @@ cd(orig_dir);
 save ICoutput.mat ICtrace ICFT ICimage ICprops ICsmtrace ICdifftrace; 
 save ProcOutIC.mat FT NeuronImage NeuronPixels;
 
+indat{1} = ICFT;
+[outdat] = MakeTrigAvg(indat);
+MeanI = outdat{1};
+save MeanI.mat MeanI;
 
 % update data structures
 

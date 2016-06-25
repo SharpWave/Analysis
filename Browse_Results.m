@@ -6,8 +6,8 @@ segFT = FT;
 load TvP_analysis.mat;
 load NormTraces.mat;
 load CorrTrace.mat;
-load ROIavg.mat;
-load T2output.mat;
+load MeanT.mat;
+load FinalOutput.mat;
 close all;
 
 if (nargin == 0)
