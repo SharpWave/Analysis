@@ -18,7 +18,7 @@ end
 
 for i = 1:length(NeuronImage)
     cidx = ClosestT(i);
-    FractionOverlap(i) = length(intersect(NeuronPixels{i},ICpixels{cidx}))./length(NeuronPixels{i});
+    FractionOverlap(i) = length(intersect(NeuronPixels{i},ICpixels{cidx}))./min(length(NeuronPixels{i}),length(ICpixels{cidx}));
 end
 
 for i = 1:length(NeuronImage)
@@ -45,7 +45,7 @@ for i = 1:length(NeuronImage)
     end
     
     Fraction_T_Matched(i) = Num_Matching_Transients(i)./Num_T_Transients(i);
-    T_Score(i) = 2*Num_Matching_Transients(i)./(Num_T_Transients(i)+Num_Closest_I_Transients(i));
+    T_Score(i) = Num_Matching_Transients(i)./min(Num_T_Transients(i),Num_Closest_I_Transients(i));
 end
 
 for i = 1:length(ICimage)
@@ -57,10 +57,9 @@ end
 % now, divide Tenaspis neurons into 3ish groups:
 % 1: Has closely matching IC shared with no other ROI
 % 2: Has a closely matching IC that is shared with another neuron
-% 3: Has a poorly matching IC
-% 4: Has no matching IC
+% 3: Has no matching IC
 
-CloseDist = 4; % Minimum centroid distance to be considered a close match
+CloseDist = 6; % Minimum centroid distance to be considered a close match
 MinOverlap = 0.67; % Minimum fraction of ROI pixels in common with IC to be considered a close match
 
 for i = 1:length(NeuronImage)
@@ -106,14 +105,8 @@ for i = 1:length(NeuronImage)
         ROIgroup(i) = 2;
         continue;
     end
-    
-    if (~CenterMatch(i) && PixelMatch(i))
-        % Offset match
-        ROIgroup(i) = 3;       
-    else 
-        % no match
-        ROIgroup(i) = 4;        
-    end
+    % otherwise
+    ROIgroup(i) = 3;
 end
 
 

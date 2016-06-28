@@ -9,8 +9,8 @@ NumFrames = size(FT,2);
 figure;set(gcf,'Renderer','OpenGl')
 colors{1} = [0 0.7 0]; % good match: darkish green
 colors{2} = 'b'; %conflict
-colors{3} = 'm'; % baddish match
-colors{4} = 'r'; % bad match
+colors{3} = 'r'; % badd
+
 
 
 for i = 1:NumTNeurons
@@ -32,7 +32,7 @@ for i = 1:NumTNeurons
 end
 
 
-UnusedIC = setdiff(1:length(ICimage),ClosestT);
+UnusedIC = setdiff(1:length(ICimage),ClosestT(find(ROIgroup ~= 3)));
 
 for i = 1:length(UnusedIC)
     b = bwboundaries(ICimage{UnusedIC(i)});

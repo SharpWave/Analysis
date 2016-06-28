@@ -33,7 +33,7 @@ for i = 1:length(dr)
     %Tenaspis3singlesession;
     ttime(i) = toc;
     %MakeICoutput3(NumIC(i));
-    TenaspisVsPCAICA('SLPDF.h5');
+    %TenaspisVsPCAICA('SLPDF.h5');
     Analyze_TvP('TvP.mat');
     
     load('TvP_analysis.mat','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients','T_TransientsPerMinute','I_TransientsPerMinute','Closest_I_TransientsPerMinute');
