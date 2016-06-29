@@ -48,6 +48,7 @@ set(axes1,'XTick',[1 2 3 4 5],'XTickLabel',...
     {'mouse 1','mouse 2','mouse 3','mouse 4','mouse 5'});
 % Create legend
 legend1 = legend(axes1,'show');
+set(legend1,'Box','off');
 set(gca,'Box','off');
 
 set(legend1,...
@@ -66,17 +67,18 @@ a = find(All_ROIgroup == 1);
 % Create histogram
 histogram(All_T_TransientsPerMinute(a),'DisplayName','Tenaspis ROIs','Parent',axes1,...
     'FaceColor',[0 0.7 0],...
-    'BinLimits',[0 7],...
+    'BinLimits',[0 4],...
     'BinWidth',0.25);hold on;
 histogram(All_Closest_I_TransientsPerMinute(a),'DisplayName','PCA/ICA ROIs','Parent',axes1,...
     'FaceColor',[1 1 1],...
-    'BinLimits',[0 7],...
+    'BinLimits',[0 4],...
     'BinWidth',0.25);
 % Create xlabel
 xlabel({'calcium events per minute'});
 ylabel('# of ROIs');
 set(gca,'Box','off')
-legend(axes1,'show');
+l1 = legend(axes1,'show');
+set(l1,'Box','off');
 axis(axes1,'tight');
 display('paired t-test for events per minute:');
 [h,p] = ttest(All_T_TransientsPerMinute(a),All_Closest_I_TransientsPerMinute(a)),
@@ -110,6 +112,39 @@ set(gca,'Box','off');
 xlabel('temporal match score');
 ylabel('fraction of ROIs');
 legend1 = legend(axes1,'show');
+set(legend1,'Box','off');
+set(legend1,...
+    'Position',[0.434928638683859 0.744632771594376 0.385390420929911 0.12881355608924]);
+
+%%%%%%%%%%%
+% Calcium transient rate comparison
+% %%%%%%%%%%%%%%%%
+CurrFig = CurrFig + 1;
+f(CurrFig) = figure(CurrFig);
+set(f(CurrFig),'Position',[1     1   397   295]);
+% Create axes
+axes1 = axes('Parent',f(CurrFig));
+% Create histogram
+a = find(All_ROIgroup == 1);
+b = find(All_ROIgroup == 3);
+
+% Create histogram
+histogram(All_T_TransientsPerMinute(a),'Parent',axes1,...
+    'FaceColor',[0 0.7 0],...
+    'BinLimits',[0 4],...
+    'DisplayName','unique IC match',...
+    'BinWidth',0.25,'Normalization','probability');hold on;
+    histogram(All_T_TransientsPerMinute(b),'Parent',axes1,...
+    'FaceColor',[1 0 0],...
+    'BinLimits',[0 4],...
+    'DisplayName','no IC match',...
+    'BinWidth',0.25,'Normalization','probability');hold on;
+    
+set(gca,'Box','off');
+xlabel('calcium events per minute');
+ylabel('fraction of ROIs');
+legend1 = legend(axes1,'show');
+set(legend1,'Box','off');
 set(legend1,...
     'Position',[0.434928638683859 0.744632771594376 0.385390420929911 0.12881355608924]);
 
