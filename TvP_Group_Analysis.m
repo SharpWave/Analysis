@@ -31,21 +31,25 @@ All_IC_MutInf = [];
 All_T_pval = [];
 All_IC_pval = [];
 All_min_PFdist = [];
+All_PFTarea = [];
+All_PFICarea = [];
 
 for i = 1:length(dr)
+    i,
     cd(dr{i});
     tic
     %Tenaspis3singlesession;
     ttime(i) = toc;
     %MakeICoutput3(NumIC(i));
-    TenaspisVsPCAICA('SLPDF.h5');
-    Analyze_TvP('TvP.mat');
+    
     load ExpRoom.mat;
     %CalculatePlacefields(ExpRoom,'alt_inputs','FinalOutput.mat','man_savename','PlaceMaps.mat','half_window',0,'minspeed',3,'cmperbin',0.5,'half_window',0);
     %PFstats;
     %CalculatePlacefields(ExpRoom,'alt_inputs','ProcOutIC.mat','man_savename','PlaceMapsIC.mat','half_window',0,'minspeed',3,'cmperbin',0.5,'half_window',0);
-    %PFstats(0,'alt_file_use','PlaceMapsIC.mat','IC')
-    load('TvP_analysis.mat','T_MutInf','IC_MutInf','T_pval','IC_pval','min_PFdist','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients','T_TransientsPerMinute','I_TransientsPerMinute','Closest_I_TransientsPerMinute');
+    %PFstats(0,'alt_file_use','PlaceMapsIC.mat','IC');
+    TenaspisVsPCAICA();
+    
+    load('TvP_analysis.mat','PFTarea','PFICarea','T_MutInf','IC_MutInf','T_pval','IC_pval','min_PFdist','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients','T_TransientsPerMinute','I_TransientsPerMinute','Closest_I_TransientsPerMinute');
     All_Fraction_T_Matched = [All_Fraction_T_Matched,Fraction_T_Matched];
     All_FractionOverlap = [All_FractionOverlap,FractionOverlap];
     All_mindist = [All_mindist,mindist];
@@ -74,15 +78,16 @@ for i = 1:length(dr)
     All_Closest_I_TransientsPerMinute = [All_Closest_I_TransientsPerMinute,Closest_I_TransientsPerMinute];
     
     All_T_MutInf = [All_T_MutInf,T_MutInf];
-All_IC_MutInf = [All_IC_MutInf,IC_MutInf];
-All_T_pval = [All_T_pval,T_pval];
-All_IC_pval = [All_IC_pval,IC_pval];
-All_min_PFdist = [All_min_PFdist,min_PFdist];
-        
+    All_IC_MutInf = [All_IC_MutInf,IC_MutInf];
+    All_T_pval = [All_T_pval,T_pval];
+    All_IC_pval = [All_IC_pval,IC_pval];
+    All_min_PFdist = [All_min_PFdist,min_PFdist];
+    All_PFTarea = [All_PFTarea,PFTarea];
+    All_PFICarea = [All_PFICarea,PFICarea];
+    
 end
 
 cd('C:\MasterData');
 save TvP_Group.mat;
 
 
-    

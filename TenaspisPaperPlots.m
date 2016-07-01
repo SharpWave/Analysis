@@ -148,6 +148,117 @@ set(legend1,'Box','off');
 set(legend1,...
     'Position',[0.434928638683859 0.744632771594376 0.385390420929911 0.12881355608924]);
 
+%%%%%%%%%%%
+% Calcium transient rate comparison
+% %%%%%%%%%%%%%%%%
+CurrFig = CurrFig + 1;
+f(CurrFig) = figure(CurrFig);
+set(f(CurrFig),'Position',[1     1   397   295]);
+% Create axes
+axes1 = axes('Parent',f(CurrFig));
+% Create histogram
+
+a = find(All_ROIgroup == 1);
+a = intersect(a,find(All_T_pval > 0.95));
+a = intersect(a,find(All_IC_pval > 0.95));
+% Create histogram
+
+
+histogram(log10(All_min_PFdist(a)),25,'Parent',axes1,...
+    'FaceColor',[0 0.7 0],...    
+    'DisplayName','unique IC match');hold on;axis tight;
+display('median PF distance');
+median(All_min_PFdist(a)),
+display('fraction PF under 5 cm');
+length(find(All_min_PFdist(a) < 10))/length(a),
+display('total place fields');
+length(a),
+    
+set(gca,'Box','off');
+xlabel('log10 place field peak error (cm)');
+ylabel('number of ROIs');
+
+%%%%%%%%%%%
+% Calcium transient rate comparison
+% %%%%%%%%%%%%%%%%
+CurrFig = CurrFig + 1;
+f(CurrFig) = figure(CurrFig);
+set(f(CurrFig),'Position',[1     1   397   295]);
+% Create axes
+axes1 = axes('Parent',f(CurrFig));
+% Create histogram
+
+a = find(All_ROIgroup == 1);
+a = intersect(a,find(All_T_pval > 0.95));
+a = intersect(a,find(All_IC_pval > 0.95));
+a = intersect(a,find(All_Num_T_Transients >= 4));
+a = intersect(a,find(All_Num_Closest_I_Transients >= 4));
+% Create histogram
+
+
+plot1 = plot(All_IC_MutInf(a)/20,All_T_MutInf(a)/20,'o','Parent',axes1,...
+    'MarkerFaceColor',[0 0.7 0],...
+    'Color',[0 0 0],...
+    'DisplayName','unique IC match');hold on;axis tight;
+
+    
+set(gca,'Box','off');
+xlabel('PCA/ICA spatial information (bits/event)');
+ylabel('Tenaspis spatial information (bits/event)');
+axis(axes1,'equal');
+% Find x values for plotting the fit based on xlim
+axesLimits1 = xlim(axes1);
+xplot1 = linspace(axesLimits1(1), axesLimits1(2));
+
+
+fitResults1 = polyfit(All_IC_MutInf(a)/20, All_T_MutInf(a)/20, 1);
+% Evaluate polynomial
+yplot1 = polyval(fitResults1, xplot1);
+% Plot the fit
+fitLine1 = plot(xplot1,yplot1,'DisplayName','   linear','Tag','linear',...
+    'Parent',axes1,...
+    'LineWidth',3,...
+    'Color',[1 0 0]);
+
+% Set new line in proper position
+setLineOrder(axes1, fitLine1, plot1);
+
+
+
+% Set the remaining axes properties
+set(axes1,'DataAspectRatio',[1 1 1],'PlotBoxAspectRatio',...
+    [1.24797484486329 1 10.9291412775768]);
+
+display('Tenaspis vs PCA/ICA well matched significant PF spatial info');
+[r,p] = corr(All_T_MutInf(a)',All_IC_MutInf(a)')
+% Create textbox
+annotation(f(CurrFig),'textbox',...
+    [0.239294710327456 0.810169491525424 0.204030226700252 0.0837457627118645],...
+    'String',['r = ',num2str(r)],...
+    'LineStyle','none');
+
+keyboard;
+end
+
+%-------------------------------------------------------------------------%
+function setLineOrder(axesh1, newLine1, associatedLine1)
+%SETLINEORDER(AXESH1,NEWLINE1,ASSOCIATEDLINE1)
+%  Set line order
+%  AXESH1:  axes
+%  NEWLINE1:  new line
+%  ASSOCIATEDLINE1:  associated line
+
+% Get the axes children
+hChildren = get(axesh1,'Children');
+% Remove the new line
+hChildren(hChildren==newLine1) = [];
+% Get the index to the associatedLine
+lineIndex = find(hChildren==associatedLine1);
+% Reorder lines so the new line appears with associated data
+hNewChildren = [hChildren(1:lineIndex-1);newLine1;hChildren(lineIndex:end)];
+% Set the children:
+set(axesh1,'Children',hNewChildren);
+
 
 end
 
