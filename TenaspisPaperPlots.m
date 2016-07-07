@@ -5,6 +5,7 @@ close all;
 
 cd('C:\MasterData');
 load TvP_Group.mat;
+load runtimes.mat;
 
 CurrFig = 1;
 NumAnimals = length(dr);
@@ -95,6 +96,8 @@ axes1 = axes('Parent',f(CurrFig));
 a = find(All_ROIgroup == 1);
 b = intersect(a,find(All_T_TransientsPerMinute > 1));
 b = intersect(b,find(All_Closest_I_TransientsPerMinute > 1));
+display('temporal scores # of ROI pairs EPM > 1')
+length(b),
 
 % Create histogram
 histogram(All_T_Score(a),'Parent',axes1,...
@@ -179,7 +182,7 @@ xlabel('log10 place field peak error (cm)');
 ylabel('number of ROIs');
 
 %%%%%%%%%%%
-% Calcium transient rate comparison
+% Place Field Spatial Info Correlation
 % %%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
@@ -206,6 +209,7 @@ set(gca,'Box','off');
 xlabel('PCA/ICA spatial information (bits/event)');
 ylabel('Tenaspis spatial information (bits/event)');
 axis(axes1,'equal');
+axis([0 0.3 0 0.3]);
 % Find x values for plotting the fit based on xlim
 axesLimits1 = xlim(axes1);
 xplot1 = linspace(axesLimits1(1), axesLimits1(2));
@@ -236,6 +240,147 @@ annotation(f(CurrFig),'textbox',...
     [0.239294710327456 0.810169491525424 0.204030226700252 0.0837457627118645],...
     'String',['r = ',num2str(r)],...
     'LineStyle','none');
+
+%%%%%%%%%%%
+% Place Field Area Correlation
+% %%%%%%%%%%%%%%%%
+CurrFig = CurrFig + 1;
+f(CurrFig) = figure(CurrFig);
+set(f(CurrFig),'Position',[1     1   397   295]);
+% Create axes
+axes1 = axes('Parent',f(CurrFig));
+% Create histogram
+
+a = find(All_ROIgroup == 1);
+a = intersect(a,find(All_T_pval > 0.95));
+a = intersect(a,find(All_IC_pval > 0.95));
+a = intersect(a,find(All_Num_T_Transients >= 4));
+a = intersect(a,find(All_Num_Closest_I_Transients >= 4));
+% Create histogram
+
+
+plot1 = plot(All_PFTarea(a)/4,All_PFICarea(a)/4,'o','Parent',axes1,...
+    'MarkerFaceColor',[0 0.7 0],...
+    'Color',[0 0 0],...
+    'DisplayName','unique IC match');hold on;axis tight;
+
+    
+set(gca,'Box','off');
+xlabel('PCA/ICA place field area (cm sq)');
+ylabel('Tenaspis place field area (cm sq)');
+axis(axes1,'equal');
+axis equal;
+axis([0 250 0 200])
+% Find x values for plotting the fit based on xlim
+axesLimits1 = xlim(axes1);
+xplot1 = linspace(axesLimits1(1), axesLimits1(2));
+
+
+fitResults1 = polyfit(All_PFTarea(a)/4,All_PFICarea(a)/4, 1);
+% Evaluate polynomial
+yplot1 = polyval(fitResults1, xplot1);
+% Plot the fit
+fitLine1 = plot(xplot1,yplot1,'DisplayName','   linear','Tag','linear',...
+    'Parent',axes1,...
+    'LineWidth',3,...
+    'Color',[1 0 0]);
+
+% Set new line in proper position
+setLineOrder(axes1, fitLine1, plot1);
+
+
+
+
+
+
+
+display('Tenaspis vs PCA/ICA well matched significant PF area');
+[r,p] = corr(All_PFTarea(a)',All_PFICarea(a)')
+% Create textbox
+annotation(f(CurrFig),'textbox',...
+    [0.239294710327456 0.810169491525424 0.204030226700252 0.0837457627118645],...
+    'String',['r = ',num2str(r)],...
+    'LineStyle','none');
+
+%%%%%%%%%%%
+% Transient rate correlation
+% %%%%%%%%%%%%%%%%
+CurrFig = CurrFig + 1;
+f(CurrFig) = figure(CurrFig);
+set(f(CurrFig),'Position',[1     1   397   295]);
+% Create axes
+axes1 = axes('Parent',f(CurrFig));
+% Create histogram
+
+a = find(All_ROIgroup == 1);
+
+% Create histogram
+
+
+plot1 = histogram2(All_Closest_I_TransientsPerMinute(a),All_T_TransientsPerMinute(a),'Parent',axes1,...
+    'DisplayStyle','tile');hold on;axis tight;
+
+    
+set(gca,'Box','off');grid off;
+xlabel({'PCA/ICA calcium event rate','(events/minute)'});
+ylabel({'Tenaspis calcium event rate','(events/minute)'});
+axis(axes1,'equal');
+axis equal;axis([0 5 0 5]);
+%axis([0 250 0 200])
+% Find x values for plotting the fit based on xlim
+axesLimits1 = xlim(axes1);
+xplot1 = linspace(axesLimits1(1), axesLimits1(2));
+
+
+fitResults1 = polyfit(All_Closest_I_TransientsPerMinute(a),All_T_TransientsPerMinute(a), 1);
+% Evaluate polynomial
+yplot1 = polyval(fitResults1, xplot1);
+% Plot the fit
+fitLine1 = plot(xplot1,yplot1,'DisplayName','   linear','Tag','linear',...
+    'Parent',axes1,...
+    'LineWidth',3,...
+    'Color',[1 0 0]);
+
+% Set new line in proper position
+setLineOrder(axes1, fitLine1, plot1);
+colorbar
+
+
+
+
+
+
+display('Tenaspis vs PCA/ICA well matched event rate correlation');
+[r,p] = corr(All_Closest_I_TransientsPerMinute(a)',All_T_TransientsPerMinute(a)')
+% Create textbox
+annotation(f(CurrFig),'textbox',...
+    [0.541561712846346 0.288135593220339 0.204030226700252 0.0837457627118646],...
+    'String',['r = ',num2str(r,2)],...
+    'LineStyle','none');
+
+%%%%%%%%%%%
+% Place Field Area Correlation
+% %%%%%%%%%%%%%%%%
+CurrFig = CurrFig + 1;
+f(CurrFig) = figure(CurrFig);
+set(f(CurrFig),'Position',[1     1   397   295]);
+% Create axes
+axes1 = axes('Parent',f(CurrFig));
+
+plot1 = plot(runtimes(:,2)/(24*3600),runtimes(:,1)/(3600),'o','Parent',axes1,...
+    'MarkerFaceColor',[0 0 0],...
+    'Color',[0 0 0],...
+    'DisplayName','unique IC match');hold on;axis tight;
+axis([0 1.4 0 4.5])    
+set(gca,'Box','off');
+xlabel('PCA/ICA run time (days)');
+ylabel('Tenaspis run time (hours)');
+
+
+display('Tenaspis vs PCA/ICA well matched significant PF area');
+[r,p] = corr(runtimes(:,2)/(3600),runtimes(:,1)/(24*60*60))
+
+
 
 keyboard;
 end
