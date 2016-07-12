@@ -2,7 +2,7 @@ function [ output_args ] = conncomptest( input_args )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
-NumIts = 50;
+NumIts = 500;
 FractionOn = 0.3;
 
 for i = 1:NumIts

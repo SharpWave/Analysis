@@ -28,21 +28,21 @@ for i = 1:length(NeuronIDs)
     idx = NeuronIDs(i);
     imagesc(MeanT{idx});hold on;caxis([0 max(MeanT{idx}(NeuronPixels{idx}))]);%colorbar
     for j = 1:length(MeanT)
-        plot(outT{j}{1}(:,2),outT{j}{1}(:,1),'Color',colors{ROIgroup(j)},'LineWidth',0.5);
+        plot(outT{j}{1}(:,2),outT{j}{1}(:,1),'Color',colors{ROIgroup(j)},'LineWidth',1);
     end
     for j = 1:length(UsedIC)
-        plot(outI{UsedIC(j)}{1}(:,2),outI{UsedIC(j)}{1}(:,1),'Color','k','LineWidth',0.5);
+        plot(outI{UsedIC(j)}{1}(:,2),outI{UsedIC(j)}{1}(:,1),'Color','k','LineWidth',1);
     end
     for j = 1:length(UnusedIC)
-        plot(outI{UnusedIC(j)}{1}(:,2),outI{UnusedIC(j)}{1}(:,1),'Color',[0.5 0.5 0.5],'LineWidth',0.5);
+        plot(outI{UnusedIC(j)}{1}(:,2),outI{UnusedIC(j)}{1}(:,1),'Color',[0.5 0.5 0.5],'LineWidth',1);
     end
     if (ROIgroup(idx) ~= 3)
-    plot(outI{ClosestT(idx)}{1}(:,2),outI{ClosestT(idx)}{1}(:,1),'Color','k','LineWidth',4);
+    plot(outI{ClosestT(idx)}{1}(:,2),outI{ClosestT(idx)}{1}(:,1),'Color','k','LineWidth',2.5);
     end
-    plot(outT{idx}{1}(:,2),outT{idx}{1}(:,1),'Color','k','LineWidth',4.25);
-    plot(outT{idx}{1}(:,2),outT{idx}{1}(:,1),'Color',colors{ROIgroup(idx)},'LineWidth',4);
+    plot(outT{idx}{1}(:,2),outT{idx}{1}(:,1),'Color','k','LineWidth',2.75);
+    plot(outT{idx}{1}(:,2),outT{idx}{1}(:,1),'Color',colors{ROIgroup(idx)},'LineWidth',2.5);
     axis([Tcent(idx,1)-HW Tcent(idx,1)+HW Tcent(idx,2)-HW Tcent(idx,2)+HW]);
     axis off;
-    title(num2str(max(MeanT{idx}(NeuronPixels{idx})),2));
+    title(num2str(max(MeanT{idx}(NeuronPixels{idx})),2));%colormap gray;
 end
-set(gcf,'Position',[8         625        1905         200])   
+set(gcf,'Position',[8   705   975   120]);   

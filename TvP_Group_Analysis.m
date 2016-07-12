@@ -33,6 +33,8 @@ All_IC_pval = [];
 All_min_PFdist = [];
 All_PFTarea = [];
 All_PFICarea = [];
+All_PFoverlap = [];
+
 
 for i = 1:length(dr)
     i,
@@ -49,7 +51,7 @@ for i = 1:length(dr)
     %PFstats(0,'alt_file_use','PlaceMapsIC.mat','IC');
     TenaspisVsPCAICA();
     
-    load('TvP_analysis.mat','PFTarea','PFICarea','T_MutInf','IC_MutInf','T_pval','IC_pval','min_PFdist','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients','T_TransientsPerMinute','I_TransientsPerMinute','Closest_I_TransientsPerMinute');
+    load('TvP_analysis.mat','PFoverlap','PFTarea','PFICarea','T_MutInf','IC_MutInf','T_pval','IC_pval','min_PFdist','Fraction_T_Matched','FractionOverlap','mindist','Num_I_Transients','Num_Matching_Transients','Num_T_Transients','T_Score','ROIgroup','FT','ICFT','Num_Closest_I_Transients','T_TransientsPerMinute','I_TransientsPerMinute','Closest_I_TransientsPerMinute');
     All_Fraction_T_Matched = [All_Fraction_T_Matched,Fraction_T_Matched];
     All_FractionOverlap = [All_FractionOverlap,FractionOverlap];
     All_mindist = [All_mindist,mindist];
@@ -84,6 +86,7 @@ for i = 1:length(dr)
     All_min_PFdist = [All_min_PFdist,min_PFdist];
     All_PFTarea = [All_PFTarea,PFTarea];
     All_PFICarea = [All_PFICarea,PFICarea];
+    All_PFoverlap = [All_PFoverlap,PFoverlap];
     
 end
 

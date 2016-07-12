@@ -382,12 +382,12 @@ display('Tenaspis vs PCA/ICA well matched significant PF area');
 
 cd('J:\Tenaspis2Test\GCaMP6f_45');
 load('TvP_analysis.mat','ROIgroup');
-a = find(ROIgroup == 1)
+a = find(ROIgroup == 1);
 TvP_ROIcompare(a([80 162 240 321 400 481 567]));
-a = find(ROIgroup == 3)
-TvP_ROIcompare(a((1:7)*20))
-a = find(ROIgroup == 2)
-TvP_ROIcompare(a((1:7)*9))
+a = find(ROIgroup == 3);
+TvP_ROIcompare(a((1:7)*20));
+a = find(ROIgroup == 2);
+TvP_ROIcompare(a((1:7)*9));
 keyboard;
 end
 

@@ -117,6 +117,15 @@ for i = 1:length(NeuronImage)
     
     Fraction_T_Matched(i) = Num_Matching_Transients(i)./Num_T_Transients(i);
     T_Score(i) = Num_Matching_Transients(i)./min(Num_T_Transients(i),Num_Closest_I_Transients(i));
+    
+    T_PFPixels = PFS_ten.PFpixels{i,PFS_ten.MaxPF(i)};
+    I_PFPixels = PFS_IC.PFpixels{cidx,PFS_IC.MaxPF(cidx)};
+    if (~isempty(T_PFPixels))
+        PFoverlap(i) = length(intersect(T_PFPixels,I_PFPixels))/length(T_PFPixels);
+    else
+        PFoverlap(i) = 0;
+    end
+    
 end
 
 for i = 1:length(ICimage)
