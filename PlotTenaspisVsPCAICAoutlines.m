@@ -38,7 +38,7 @@ for i = 1:length(UnusedIC)
     b = bwboundaries(ICimage{UnusedIC(i)});
     y = b{1}(:,1);
     x = b{1}(:,2);
-    plot(x,y,'-','Color',[0.5 0.5 0.5],'LineWidth',1);
+    plot(x,y,'-','Color',[0.5 0.5 0.5],'LineWidth',4);
     x2{i} = x;
     y2{i} = y;
 end

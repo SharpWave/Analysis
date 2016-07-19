@@ -20,8 +20,9 @@ ROIcolors{3} = 'r'; % badd match
 NumROIcolors = length(ROIcolors);
 
 
-
-% ROI group histogram %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1: ROI group histogram
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 f(CurrFig) = figure(CurrFig);
 set(gcf,'Position',[653   121   549   295]);
 for i = 1:NumAnimals
@@ -41,7 +42,7 @@ set(bar1(3),'DisplayName','no IC match','FaceColor',ROIcolors{3});
 
 
 % Create ylabel
-ylabel({'# of Tenaspis ROIs'});
+ylabel({'# of tROIs'});
 
 box(axes1,'on');
 % Set the remaining axes properties
@@ -54,10 +55,12 @@ set(gca,'Box','off');
 
 set(legend1,...
     'Position',[0.29502288804999 0.590322464160617 0.264116570760643 0.269857095380526]);
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','TvP_MatchGroupsHist'],'tiffnocompression');
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
-% Calcium Transient rate comparison histogram
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2: Calcium Transient rate comparison histogram
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
 set(f(CurrFig),'Position',[1     1   397   295]);
@@ -66,11 +69,11 @@ axes1 = axes('Parent',f(CurrFig));
 % Create histogram
 a = find(All_ROIgroup == 1);
 % Create histogram
-histogram(All_T_TransientsPerMinute(a),'DisplayName','Tenaspis ROIs','Parent',axes1,...
+histogram(All_T_TransientsPerMinute(a),'DisplayName','tROIs','Parent',axes1,...
     'FaceColor',[0 0.7 0],...
     'BinLimits',[0 4],...
     'BinWidth',0.25);hold on;
-histogram(All_Closest_I_TransientsPerMinute(a),'DisplayName','PCA/ICA ROIs','Parent',axes1,...
+histogram(All_Closest_I_TransientsPerMinute(a),'DisplayName','pROIs','Parent',axes1,...
     'FaceColor',[1 1 1],...
     'BinLimits',[0 4],...
     'BinWidth',0.25);
@@ -81,12 +84,16 @@ set(gca,'Box','off')
 l1 = legend(axes1,'show');
 set(l1,'Box','off');
 axis(axes1,'tight');
+
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','TvP_Matches_TransientRateHist'],'tiffnocompression');
+
 display('paired t-test for events per minute:');
 [h,p] = ttest(All_T_TransientsPerMinute(a),All_Closest_I_TransientsPerMinute(a)),
 
-%%%%%%%%%%%
-% Calcium transient agreement
-% %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3: Calcium transient temporal agreement (match score hist)
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
 set(f(CurrFig),'Position',[1     1   397   295]);
@@ -118,10 +125,12 @@ legend1 = legend(axes1,'show');
 set(legend1,'Box','off');
 set(legend1,...
     'Position',[0.434928638683859 0.744632771594376 0.385390420929911 0.12881355608924]);
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','TvP_temporal_matchscores'],'tiffnocompression');
 
-%%%%%%%%%%%
-% Calcium transient rate comparison
-% %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 4: Calcium transient rate comparison (matches vs nonmatches)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
 set(f(CurrFig),'Position',[1     1   397   295]);
@@ -145,15 +154,18 @@ histogram(All_T_TransientsPerMinute(a),'Parent',axes1,...
     
 set(gca,'Box','off');
 xlabel('calcium events per minute');
-ylabel('fraction of ROIs');
+ylabel('fraction of tROIs');
 legend1 = legend(axes1,'show');
 set(legend1,'Box','off');
 set(legend1,...
     'Position',[0.434928638683859 0.744632771594376 0.385390420929911 0.12881355608924]);
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','MatchVsNonmatch_TransientRate'],'tiffnocompression');
 
-%%%%%%%%%%%
-% Calcium transient rate comparison
-% %%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 5: PF peak error
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
 set(f(CurrFig),'Position',[1     1   397   295]);
@@ -180,10 +192,12 @@ length(a),
 set(gca,'Box','off');
 xlabel('log10 place field peak error (cm)');
 ylabel('number of ROIs');
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','PfPeakError'],'tiffnocompression');
 
-%%%%%%%%%%%
-% Place Field Spatial Info Correlation
-% %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 6: Place Field Spatial Info Correlation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
 set(f(CurrFig),'Position',[1     1   397   295]);
@@ -206,8 +220,8 @@ plot1 = plot(All_IC_MutInf(a)/20,All_T_MutInf(a)/20,'o','Parent',axes1,...
 
     
 set(gca,'Box','off');
-xlabel('PCA/ICA spatial information (bits/event)');
-ylabel('Tenaspis spatial information (bits/event)');
+xlabel('pROI spatial information (bits/event)');
+ylabel('tROI spatial information (bits/event)');
 axis(axes1,'equal');
 axis([0 0.3 0 0.3]);
 % Find x values for plotting the fit based on xlim
@@ -240,10 +254,12 @@ annotation(f(CurrFig),'textbox',...
     [0.239294710327456 0.810169491525424 0.204030226700252 0.0837457627118645],...
     'String',['r = ',num2str(r)],...
     'LineStyle','none');
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','SpatialInfo'],'tiffnocompression');
 
-%%%%%%%%%%%
-% Place Field Area Correlation
-% %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 7: Place Field Area Correlation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
 set(f(CurrFig),'Position',[1     1   397   295]);
@@ -266,8 +282,8 @@ plot1 = plot(All_PFTarea(a)/4,All_PFICarea(a)/4,'o','Parent',axes1,...
 
     
 set(gca,'Box','off');
-xlabel('PCA/ICA place field area (cm sq)');
-ylabel('Tenaspis place field area (cm sq)');
+xlabel('pROI place field area (cm sq)');
+ylabel('tROI place field area (cm sq)');
 axis(axes1,'equal');
 axis equal;
 axis([0 250 0 200])
@@ -288,12 +304,6 @@ fitLine1 = plot(xplot1,yplot1,'DisplayName','   linear','Tag','linear',...
 % Set new line in proper position
 setLineOrder(axes1, fitLine1, plot1);
 
-
-
-
-
-
-
 display('Tenaspis vs PCA/ICA well matched significant PF area');
 [r,p] = corr(All_PFTarea(a)',All_PFICarea(a)')
 % Create textbox
@@ -301,10 +311,39 @@ annotation(f(CurrFig),'textbox',...
     [0.239294710327456 0.810169491525424 0.204030226700252 0.0837457627118645],...
     'String',['r = ',num2str(r)],...
     'LineStyle','none');
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','Pfarea_scatter_TvP'],'tiffnocompression');
 
-%%%%%%%%%%%
-% Transient rate correlation
-% %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 8: Place field overlap histogram
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+CurrFig = CurrFig + 1;
+f(CurrFig) = figure(CurrFig);
+set(f(CurrFig),'Position',[1     1   397   295]);
+% Create axes
+axes1 = axes('Parent',f(CurrFig));
+
+% Create histogram
+a = find(All_ROIgroup == 1);
+a = intersect(a,find(All_T_pval > 0.95));
+a = intersect(a,find(All_IC_pval > 0.95));
+
+% Create histogram
+histogram((All_PFoverlap(a)),25,'Parent',axes1,...
+    'FaceColor',[0 0.7 0],...    
+    'DisplayName','unique IC match');hold on;axis tight;
+display('median PF overlap (fraction of pixels)');
+median(All_PFoverlap(a)),
+    
+set(gca,'Box','off');
+xlabel('place field overlap (fraction of area)');
+ylabel('number of tROIs');
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','PFoverlap'],'tiffnocompression');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 9: TvP Transient rate correlation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
 set(f(CurrFig),'Position',[1     1   397   295]);
@@ -322,8 +361,8 @@ plot1 = histogram2(All_Closest_I_TransientsPerMinute(a),All_T_TransientsPerMinut
 
     
 set(gca,'Box','off');grid off;
-xlabel({'PCA/ICA calcium event rate','(events/minute)'});
-ylabel({'Tenaspis calcium event rate','(events/minute)'});
+xlabel({'pROI calcium event rate','(events/minute)'});
+ylabel({'tROI calcium event rate','(events/minute)'});
 axis(axes1,'equal');
 axis equal;axis([0 5 0 5]);
 %axis([0 250 0 200])
@@ -345,11 +384,6 @@ fitLine1 = plot(xplot1,yplot1,'DisplayName','   linear','Tag','linear',...
 setLineOrder(axes1, fitLine1, plot1);
 colorbar
 
-
-
-
-
-
 display('Tenaspis vs PCA/ICA well matched event rate correlation');
 [r,p] = corr(All_Closest_I_TransientsPerMinute(a)',All_T_TransientsPerMinute(a)')
 % Create textbox
@@ -357,10 +391,12 @@ annotation(f(CurrFig),'textbox',...
     [0.541561712846346 0.288135593220339 0.204030226700252 0.0837457627118646],...
     'String',['r = ',num2str(r,2)],...
     'LineStyle','none');
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','TvP_TransientRate_2Dhist'],'tiffnocompression');
 
-%%%%%%%%%%%
-% Place Field Area Correlation
-% %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 10 run time scatter
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 CurrFig = CurrFig + 1;
 f(CurrFig) = figure(CurrFig);
 set(f(CurrFig),'Position',[1     1   397   295]);
@@ -375,11 +411,51 @@ axis([0 1.4 0 4.5])
 set(gca,'Box','off');
 xlabel('PCA/ICA run time (days)');
 ylabel('Tenaspis run time (hours)');
-
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','runtimes'],'tiffnocompression');
 
 display('Tenaspis vs PCA/ICA well matched significant PF area');
-[r,p] = corr(runtimes(:,2)/(3600),runtimes(:,1)/(24*60*60))
+[r,p] = corr(runtimes(:,2)/(3600),runtimes(:,1)/(24*60*60));
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 11: Calcium transient rate comparison (matches vs nonmatches)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+CurrFig = CurrFig + 1;
+f(CurrFig) = figure(CurrFig);
+set(f(CurrFig),'Position',[1     1   397   295]);
+% Create axes
+axes1 = axes('Parent',f(CurrFig));
+% Create histogram
+a = find(All_ROIgroup == 1);
+a = intersect(a,find(All_T_pval > 0.95));
+a = intersect(a,find(All_Num_T_Transients >= 4));
+
+b = find(All_ROIgroup == 3);
+b = intersect(b,find(All_T_pval > 0.95));
+b = intersect(b,find(All_Num_T_Transients >= 4));
+
+% Create histogram
+histogram(All_T_TransientsPerMinute(a),'Parent',axes1,...
+    'FaceColor',[0 0.7 0],...
+    'BinLimits',[0 4],...
+    'DisplayName','unique IC match',...
+    'BinWidth',0.25,'Normalization','probability');hold on;
+    histogram(All_T_TransientsPerMinute(b),'Parent',axes1,...
+    'FaceColor',[1 0 0],...
+    'BinLimits',[0 4],...
+    'DisplayName','no IC match',...
+    'BinWidth',0.25,'Normalization','probability');hold on;
+    
+set(gca,'Box','off');
+xlabel('calcium events per minute');
+ylabel('fraction of tROIs (valid place fields)');
+legend1 = legend(axes1,'show');
+set(legend1,'Box','off');
+set(legend1,...
+    'Position',[0.434928638683859 0.744632771594376 0.385390420929911 0.12881355608924]);
+set(gcf, 'PaperPositionMode', 'auto')
+saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','MatchVsNonmatch_TransientRate_validPF'],'tiffnocompression');
+keyboard;
 cd('J:\Tenaspis2Test\GCaMP6f_45');
 load('TvP_analysis.mat','ROIgroup');
 a = find(ROIgroup == 1);
@@ -388,7 +464,8 @@ a = find(ROIgroup == 3);
 TvP_ROIcompare(a((1:7)*20));
 a = find(ROIgroup == 2);
 TvP_ROIcompare(a((1:7)*9));
-keyboard;
+
+
 end
 
 %-------------------------------------------------------------------------%
