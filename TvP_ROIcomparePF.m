@@ -25,7 +25,7 @@ UsedIC = setdiff(1:length(ICimage),UnusedIC);
 
 figure;
 RunOK = RunOccMap > 0;
-h = fspecial('disk',2);
+h = fspecial('disk',3);
 RunOK = (imfilter(RunOK,h) > 0);
 RunOKC(:,:,1) = RunOK;
 RunOKC(:,:,2) = RunOK;
@@ -47,15 +47,19 @@ for i = 1:length(NeuronIDs)
     if (ROIgroup(idx) ~= 3)
     plot(outI{ClosestT(idx)}{1}(:,2),outI{ClosestT(idx)}{1}(:,1),'Color','k','LineWidth',2.5);
     end
-    plot(outT{idx}{1}(:,2),outT{idx}{1}(:,1),'Color','k','LineWidth',2.75);
+    %plot(outT{idx}{1}(:,2),outT{idx}{1}(:,1),'Color','k','LineWidth',2.75);
     plot(outT{idx}{1}(:,2),outT{idx}{1}(:,1),'Color',colors{ROIgroup(idx)},'LineWidth',2.5);
+    axis image;
     axis([Tcent(idx,1)-HW Tcent(idx,1)+HW Tcent(idx,2)-HW Tcent(idx,2)+HW]);
     axis off;
     title(num2str(max(MeanT{idx}(NeuronPixels{idx})),2));%colormap gray;
     subplot(2,length(NeuronIDs),i+length(NeuronIDs));
     c = imagesc(TMap_gauss{idx});axis image;hold on;%plot(Ybin(isrunning),Xbin(isrunning),'-r');
     c = image(RunOKC);
-    c.AlphaData = single(~RunOK)
+    c.AlphaData = single(~RunOK);
+    try
+    caxis([0 max(TMap_gauss{idx}(:))]);
+    end
     title(num2str(max(TMap_gauss{idx}(:)),2));
 end
 set(gcf,'Position',[8   705   975   120]);   
