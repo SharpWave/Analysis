@@ -90,7 +90,7 @@ saveas(gcf,['C:\Users\Dave\Desktop\TENASPIS paper figs\subtifs\','TvP_Matches_Tr
 
 display('paired t-test for events per minute:');
 [h,p] = ttest(All_T_TransientsPerMinute(a),All_Closest_I_TransientsPerMinute(a)),
-
+keyboard;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 3: Calcium transient temporal agreement (match score hist)
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -249,6 +249,8 @@ set(axes1,'DataAspectRatio',[1 1 1],'PlotBoxAspectRatio',...
 
 display('Tenaspis vs PCA/ICA well matched significant PF spatial info');
 [r,p] = corr(All_T_MutInf(a)',All_IC_MutInf(a)')
+
+
 % Create textbox
 annotation(f(CurrFig),'textbox',...
     [0.239294710327456 0.810169491525424 0.204030226700252 0.0837457627118645],...

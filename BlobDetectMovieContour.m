@@ -14,7 +14,7 @@ open(aviobj);
 for i = 1:length(cc)
     [frame,Xdim,Ydim,NumFrames] = loadframe(infile,i);
     %imagesc(frame);caxis(climits);colormap gray;
-    contour(frame,0:0.004:0.25);caxis([0 0.25]);
+    contour(frame,0:0.0025:0.1);caxis([0 0.1]);
     x = [];
     y = [];
     

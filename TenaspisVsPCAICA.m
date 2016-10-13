@@ -13,10 +13,12 @@ PFS_IC = load('PFstatsIC.mat');
 for i = 1:length(NeuronImage)
     Tprops{i} = regionprops(NeuronImage{i});
     Tcent(i,1:2) = Tprops{i}.Centroid;
+    Tarea(i) = Tprops{i}.Area;
 end
 
 for i = 1:length(ICprops)
     Icent(i,1:2) = ICprops{i}.Centroid;
+    Iarea(i) = ICprops{i}.Area
 end
 
 % compute all pairwise distances between neuron centroids
@@ -187,6 +189,15 @@ for i = 1:length(NeuronImage)
     end
     % otherwise
     ROIgroup(i) = 3;
+end
+
+% Determine whether ICs were matched at all by Tenaspis
+for i = 1:length(ICimage)
+  if(ismember(i,ClosestT))
+      MatchedIC(i) = 1;
+  else
+      MatchedIC(i) = 0;
+  end
 end
 
 
