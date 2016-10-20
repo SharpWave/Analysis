@@ -3,15 +3,15 @@ function [ output_args ] = TestEB( input_args )
 %   Detailed explanation goes here
 
 
-chunks = [1,10,50,100,500,1000,2500,5000];
+chunks = [1000,1250,1667,2500];
 load singlesessionmask.mat;
 
 for i = 1:length(chunks)
-    for j = 1:4
+    for j = 1:3
         display(int2str(chunks(i)));
-        tic;
+        tic,
         ExtractBlobs('SLPDF.h5',neuronmask,chunks(i));
-        protime(i,j) = toc;
+        protime(i,j) = toc,
     end
 end
 save Blobtime.mat protime chunks;
