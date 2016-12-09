@@ -4,20 +4,22 @@ function [] = MakeICoutput4(NumIC,varname)
 % NeuronPixels.  weighted AND binarry
 orig_dir = pwd;
 
+Set_T_Params('fake.h5');
+
 % select Obj_1 directory
 %dirname = uigetdir;
 
 [Xdim,Ydim] = Get_T_Params('Xdim','Ydim');
 
 neuronmask = ones(Xdim,Ydim);
-SideBuf = 20;
+SideBuf = 2;
 neuronmask(1:SideBuf,:) = 0;
 neuronmask(end-SideBuf+1:end,:) = 0;
 neuronmask(:,1:SideBuf) = 0;
 neuronmask(:,end-SideBuf+1:end) = 0;
 
 
-MinDur = 2;
+MinDur = 0;
 
 cd([orig_dir,'\IC',int2str(NumIC),'-Objects\Obj_1']);
 
@@ -121,7 +123,7 @@ ICFT = zeros(NumGoodIC,NumFrames);
 % Interpret slopes the same way as Tenaspis
 for i = 1:NumGoodIC
    ICsmtrace(i,:) = convtrim(ICtrace(i,:),ones(1,10)./10);
-   ICdifftrace(i,:) = diff(ICsmtrace(i,:));
+   ICdifftrace(i,:) = [0,diff(ICsmtrace(i,:))];
    slopes = find(ICrising{i} > 4);
    for j = 1:length(slopes)
        curr = (slopes(j));
