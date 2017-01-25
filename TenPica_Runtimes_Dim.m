@@ -14,6 +14,8 @@ Pica(4,1:10) = [35536,38137,38217,37443,37278,37788,38512,34171,34463,40610];
 
 Pica = Pica/60;
 
+NumSeeds = 10;
+
 basedir{1} = 'J:\PostSubTesting\Fake\pAct_point001';
 basedir{2} = 'J:\PostSubTesting\Fake\pAct_point001';
 basedir{3} = 'J:\PostSubTesting\Fake\pAct_point001';
@@ -27,23 +29,27 @@ for i = 1:length(basedir)
       cd(['Fake',int2str(ndim(i)),'-',int2str(j)]);
       load ttime.mat;
       Tnsps(i,j) = ttime;
+      cd ..
     end
 end
 
 Tnsps = Tnsps/60;
 
-x = [150,200,300].^2;
+x = ndim.^2;
 
-plot(x,mean(Tnsps'),'bo','MarkerFaceColor','b','MarkerSize',2);hold on;errorbar(x,mean(Tnsps'),std(Tnsps'),'b','LineWidth',1);
-plot(x,mean(Pica'),'rs','MarkerFaceColor','r','MarkerSize',2);hold on;errorbar(x,mean(Pica'),std(Pica'),'r','LineWidth',1);
+h(1) = plot(x,mean(Tnsps'),'bo','MarkerFaceColor','b','MarkerSize',2);hold on;
+errorbar(x,mean(Tnsps'),std(Tnsps'),'b','LineWidth',1);
+h(2) = plot(x,mean(Pica'),'rs','MarkerFaceColor','r','MarkerSize',2);
+hold on;errorbar(x,mean(Pica'),std(Pica'),'r','LineWidth',1);
 %set(gca,'Xlim',[150 400]);
-set(gca,'Ylim',[0 180]);
+%set(gca,'Ylim',[0 180]);
 set(gca,'XTick',x);
 xtl{1} = '150 x 150';
 xtl{2} = '200 x 200';
 xtl{3} = '300 x 300';
+xtl{4} = '400 x 400';
 
-%set(gca,'XTickLabel',xtl);
+set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
 xlabel('movie size (pixels)');
 ylabel('run time (minutes)');

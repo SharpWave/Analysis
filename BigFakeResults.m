@@ -3,27 +3,31 @@ function [ output_args ] = BigFakeResults( input_args )
 %   Detailed explanation goes here
 close all;
 % make list of directories
-basedir = 'J:\PostSubTesting\Fake\';
-seeds = 1:5;
+basedir = 'J:\PostSubTesting\Fake\pAct_point001\';
+seeds = 1:10;
 sizes = [150,200,300,400];
 ICnums = [59,173,581,1229]
 
 % iterate and load results
-% for i = 1:length(sizes)
-%     for j = 1:length(seeds)
-%         wdir = [basedir,'Fake',int2str(sizes(i)),'-',int2str(seeds(j))]
-%         cd(wdir)
-%         % load stuff here
-%         %MakeICoutput4(ICnums(i))
-%         %MakeFakeMovie(j,sizes(i));
-%         outs(i,j) = FakeDataResults;
-%     end
-% end
-% 
-% 
-% 
-% cd('C:\Users\Dave\Desktop\Revision\MatlabDumpingGround')
-% save outs.mat
+for i = 1:length(sizes)
+    for j = 1:length(seeds)
+        wdir = [basedir,'Fake',int2str(sizes(i)),'-',int2str(seeds(j))]
+        cd(wdir)
+        % load stuff here
+        %MakeICoutput4(ICnums(i));
+        %MakeFakeMovie(j,sizes(i));
+        %outs(i,j) = FakeDataResults;
+        outs(i,j) = load('FakeDataResults.mat','PicaPartner','TnspsPartner','TnspsROIFalsePos','TnspsROIFalseNeg','PicaROIFalsePos',...
+            'PicaROIFalseNeg','TnspsN','PicaN','FakeN','PicaFalseNegRate','TnspsFalseNegRate','TnspsFalsePosRate','PicaFalsePosRate',...
+            'NumTnspsTransients','NumPicaTransients','NumFakeTransients');
+    end
+end
+
+
+
+cd('C:\Users\Dave\Desktop\Revision\MatlabDumpingGround')
+save outs.mat
+
 load outs.mat;
 
 % ugh, unpack the variables from the struct
@@ -58,18 +62,24 @@ end
 
 %% figure 1: size estimates
 figure(1);hold on;
-plot(sizes.^2,mean((PicaN./FakeN)'),'r');errorbar(sizes.^2,mean((PicaN./FakeN)'),std((PicaN./FakeN)'),'r','LineWidth',2)
-plot(sizes.^2,mean((TnspsN./FakeN)'),'b');errorbar(sizes.^2,mean((TnspsN./FakeN)'),std((TnspsN./FakeN)'),'b','LineWidth',2)
+plot(sizes.^2,mean((PicaN./FakeN)'*100-100),'r');
+errorbar(sizes.^2,mean((PicaN./FakeN)'*100-100),std((PicaN./FakeN)'*100),'r','LineWidth',2);
+
+plot(sizes.^2,mean((TnspsN./FakeN)'*100-100),'b');
+
+errorbar(sizes.^2,mean((TnspsN./FakeN)'*100-100),std((TnspsN./FakeN)'*100),'b','LineWidth',2);
+
 set(gca,'Box','off');
 %set(gca,'Ylim',[0 1.1]);
 set(gca,'XTick',sizes.^2);
 xtl{1} = '150 x 150';
 xtl{2} = '200 x 200';
 xtl{3} = '300 x 300';
+xtl{4} = '400 x 400';
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
 xlabel('movie size (# of pixels)');
-ylabel('mean neuron count accuracy (fraction of actual)');
+ylabel('ROI detection error %');
 set(gcf,'Position',[814   388   533   461]);
 set(gcf, 'PaperPositionMode', 'auto');
 saveas(gcf,'ROI_count_accuracy','tif');
@@ -104,6 +114,7 @@ set(gca,'XTick',sizes.^2);
 xtl{1} = '150 x 150';
 xtl{2} = '200 x 200';
 xtl{3} = '300 x 300';
+xtl{4} = '400 x 400';
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
 xlabel('movie size (# of pixels)');
@@ -120,6 +131,7 @@ plot(sizes.^2,mean(PicaFalseNeg'),'r');errorbar(sizes.^2,mean(PicaFalseNeg'),std
 plot(sizes.^2,mean(TnspsFalseNeg'),'b');errorbar(sizes.^2,mean(TnspsFalseNeg'),std(TnspsFalseNeg'),'b','LineWidth',2);
 set(gca,'Box','off');
 set(gca,'Ylim',[0 1]);
+set(gca,'YLim',[0 0.2])
 set(gca,'XTick',sizes.^2);
 xlabel('movie size (# of pixels)');
 ylabel('false negative rate');
@@ -127,6 +139,7 @@ ylabel('false negative rate');
 xtl{1} = '150 x 150';
 xtl{2} = '200 x 200';
 xtl{3} = '300 x 300';
+xtl{4} = '400 x 400';
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
 set(gca,'XTickLabel',xtl);
@@ -143,6 +156,7 @@ plot(sizes.^2,mean(PicaFalsePos'),'r');errorbar(sizes.^2,mean(PicaFalsePos'),std
 plot(sizes.^2,mean(TnspsFalsePos'),'b');errorbar(sizes.^2,mean(TnspsFalsePos'),std(TnspsFalsePos'),'b','LineWidth',2);
 set(gca,'Box','off');
 set(gca,'Ylim',[0 1]);
+set(gca,'YLim',[0 0.2])
 set(gca,'XTick',sizes.^2);
 xlabel('movie size (# of pixels)');
 ylabel('false positive rate');
@@ -150,10 +164,12 @@ ylabel('false positive rate');
 xtl{1} = '150 x 150';
 xtl{2} = '200 x 200';
 xtl{3} = '300 x 300';
+xtl{4} = '400 x 400';
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
 set(gcf,'Position',[814   388   533   461]);
 set(gcf, 'PaperPositionMode', 'auto');
+
 saveas(gcf,'false_pos','tif');
 
 
