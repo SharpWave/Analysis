@@ -3,15 +3,17 @@ function [ output_args ] = BigFakeResults( input_args )
 %   Detailed explanation goes here
 close all;
 % make list of directories
-basedir = 'J:\PostSubTesting\Fake\pAct_point001\';
+basedir{1} = 'J:\PostSubTesting\Fake\pAct_point0005\';
+basedir{2} = 'J:\PostSubTesting\Fake\pAct_point001\';
+basedir{3} = 'J:\PostSubTesting\Fake\pAct_point0015\';
 seeds = 1:10;
-sizes = [150,200,300,400];
-ICnums = [59,173,581,1229]
+sizes = [0.01,0.02,0.03];
+ICnums = [581,581,581]
 
 % iterate and load results
 for i = 1:length(sizes)
     for j = 1:length(seeds)
-        wdir = [basedir,'Fake',int2str(sizes(i)),'-',int2str(seeds(j))]
+        wdir = [basedir{i},'Fake',int2str(300),'-',int2str(seeds(j))]
         cd(wdir)
         % load stuff here
         %MakeICoutput4(ICnums(i));
@@ -26,9 +28,9 @@ end
 
 
 cd('C:\Users\Dave\Desktop\Revision\MatlabDumpingGround')
-save outs.mat
+save outs_pAct.mat
 
-load outs.mat;
+load outs_pAct.mat;
 
 % ugh, unpack the variables from the struct
 for i = 1:length(sizes)
@@ -62,27 +64,28 @@ end
 
 %% figure 1: size estimates
 figure(1);hold on;
-plot(sizes.^2,mean((PicaN./FakeN)'*100-100),'r');
-errorbar(sizes.^2,mean((PicaN./FakeN)'*100-100),std((PicaN./FakeN)'*100),'r','LineWidth',2);
+plot(sizes,mean((PicaN./FakeN)'*100-100),'r');
+errorbar(sizes,mean((PicaN./FakeN)'*100-100),std((PicaN./FakeN)'*100),'r','LineWidth',2);
 
-plot(sizes.^2,mean((TnspsN./FakeN)'*100-100),'b');
+plot(sizes,mean((TnspsN./FakeN)'*100-100),'b');
 
-errorbar(sizes.^2,mean((TnspsN./FakeN)'*100-100),std((TnspsN./FakeN)'*100),'b','LineWidth',2);
+errorbar(sizes,mean((TnspsN./FakeN)'*100-100),std((TnspsN./FakeN)'*100),'b','LineWidth',2);
 
 set(gca,'Box','off');
 %set(gca,'Ylim',[0 1.1]);
-set(gca,'XTick',sizes.^2);
-xtl{1} = '150 x 150';
-xtl{2} = '200 x 200';
-xtl{3} = '300 x 300';
-xtl{4} = '400 x 400';
+set(gca,'XTick',sizes);
+
+xtl{1} = '0.01';
+xtl{2} = '0.02';
+xtl{3} = '0.03';
+set(gca,'XLim',[0 0.04]);
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
-xlabel('movie size (# of pixels)');
+xlabel('activity rate (transients per sec)');
 ylabel('ROI detection error %');
 set(gcf,'Position',[814   388   533   461]);
 set(gcf, 'PaperPositionMode', 'auto');
-saveas(gcf,'ROI_count_accuracy','tif');
+
 
 %% figure 2: activity estimates for fake ROIs with partners
 figure(2);hold on;
@@ -108,76 +111,76 @@ for i = 1:length(sizes)
     end
 end
 
-plot(sizes.^2,mean(PAA'),'r');errorbar(sizes.^2,mean(PAA'),std(PAA'),'r','LineWidth',2)
-plot(sizes.^2,mean(TAA'),'b');errorbar(sizes.^2,mean(TAA'),std(TAA'),'b','LineWidth',2)
+plot(sizes,mean(PAA'),'r');errorbar(sizes,mean(PAA'),std(PAA'),'r','LineWidth',2)
+plot(sizes,mean(TAA'),'b');errorbar(sizes,mean(TAA'),std(TAA'),'b','LineWidth',2)
 set(gca,'Box','off');
 set(gca,'Ylim',[0 40]);
-set(gca,'XTick',sizes.^2);
-xtl{1} = '150 x 150';
-xtl{2} = '200 x 200';
-xtl{3} = '300 x 300';
-xtl{4} = '400 x 400';
+set(gca,'XTick',sizes);
+
+xtl{1} = '0.01';
+xtl{2} = '0.02';
+xtl{3} = '0.03';
+set(gca,'XLim',[0 0.04]);
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
-xlabel('movie size (# of pixels)');
+xlabel('activity rate (transients per sec)');
 ylabel('# of transients detected: mean percent error)');
 set(gcf,'Position',[814   388   533   461]);
 set(gcf, 'PaperPositionMode', 'auto');
-saveas(gcf,'transient_count_accuracy','tif');
+
 
 %% figure 3 same shits but for false positives and negatives
 figure(3);hold on;
 
 
-plot(sizes.^2,mean(PicaFalseNeg'),'r');errorbar(sizes.^2,mean(PicaFalseNeg'),std(PicaFalseNeg'),'r','LineWidth',2);
-plot(sizes.^2,mean(TnspsFalseNeg'),'b');errorbar(sizes.^2,mean(TnspsFalseNeg'),std(TnspsFalseNeg'),'b','LineWidth',2);
+plot(sizes,mean(PicaFalseNeg'),'r');errorbar(sizes,mean(PicaFalseNeg'),std(PicaFalseNeg'),'r','LineWidth',2);
+plot(sizes,mean(TnspsFalseNeg'),'b');errorbar(sizes,mean(TnspsFalseNeg'),std(TnspsFalseNeg'),'b','LineWidth',2);
 set(gca,'Box','off');
 set(gca,'Ylim',[0 1]);
 set(gca,'YLim',[0 0.2])
-set(gca,'XTick',sizes.^2);
-xlabel('movie size (# of pixels)');
+set(gca,'XTick',sizes);
+xlabel('activity rate (transients per sec)');
 ylabel('false negatives per transient');
 
-xtl{1} = '150 x 150';
-xtl{2} = '200 x 200';
-xtl{3} = '300 x 300';
-xtl{4} = '400 x 400';
+xtl{1} = '0.01';
+xtl{2} = '0.02';
+xtl{3} = '0.03';
+set(gca,'XLim',[0 0.04]);
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
 set(gcf,'Position',[814   388   533   461]);
 set(gcf, 'PaperPositionMode', 'auto');
-saveas(gcf,'false_negs','tif');
+
 
 %% figure 3 same shits but for false positives and negatives
 figure(4);hold on;
 
 
-plot(sizes.^2,mean(PicaFalsePos'),'r');errorbar(sizes.^2,mean(PicaFalsePos'),std(PicaFalsePos'),'r','LineWidth',2);
-plot(sizes.^2,mean(TnspsFalsePos'),'b');errorbar(sizes.^2,mean(TnspsFalsePos'),std(TnspsFalsePos'),'b','LineWidth',2);
+plot(sizes,mean(PicaFalsePos'),'r');errorbar(sizes,mean(PicaFalsePos'),std(PicaFalsePos'),'r','LineWidth',2);
+plot(sizes,mean(TnspsFalsePos'),'b');errorbar(sizes,mean(TnspsFalsePos'),std(TnspsFalsePos'),'b','LineWidth',2);
 set(gca,'Box','off');
 set(gca,'Ylim',[0 1]);
 set(gca,'YLim',[0 0.2])
-set(gca,'XTick',sizes.^2);
-xlabel('movie size (# of pixels)');
+set(gca,'XLim',[0 0.04]);
+set(gca,'XTick',sizes);
+xlabel('activity rate (transients per sec)');
 ylabel('false positives per transient');
 
-xtl{1} = '150 x 150';
-xtl{2} = '200 x 200';
-xtl{3} = '300 x 300';
-xtl{4} = '400 x 400';
+xtl{1} = '0.01';
+xtl{2} = '0.02';
+xtl{3} = '0.03';
+
 set(gca,'XTickLabel',xtl);
 set(gca,'XTickLabelRotation',45);
 set(gcf,'Position',[814   388   533   461]);
 set(gcf, 'PaperPositionMode', 'auto');
 
-saveas(gcf,'false_pos','tif');
-
-
-
-
 keyboard;
+
+
+
 
 % plot(x,mean(Tnsps'),'bo','MarkerFaceColor','b','MarkerSize',2);hold on;errorbar(x,mean(Tnsps'),std(Tnsps'),'b','LineWidth',1);
 % plot(x,mean(Pica'),'rs','MarkerFaceColor','r','MarkerSize',2);hold on;errorbar(x,mean(Pica'),std(Pica'),'r','LineWidth',1);

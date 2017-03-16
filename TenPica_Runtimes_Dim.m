@@ -37,10 +37,10 @@ Tnsps = Tnsps/60;
 
 x = ndim.^2;
 
-h(1) = plot(x,mean(Tnsps'),'bo','MarkerFaceColor','b','MarkerSize',2);hold on;
-errorbar(x,mean(Tnsps'),std(Tnsps'),'b','LineWidth',1);
-h(2) = plot(x,mean(Pica'),'rs','MarkerFaceColor','r','MarkerSize',2);
-hold on;errorbar(x,mean(Pica'),std(Pica'),'r','LineWidth',1);
+h(1) = plot(x,mean(Tnsps'),'b');hold on;
+errorbar(x,mean(Tnsps'),std(Tnsps'),'b','LineWidth',2);
+h(2) = plot(x,mean(Pica'),'r');
+hold on;errorbar(x,mean(Pica'),std(Pica'),'r','LineWidth',2);
 %set(gca,'Xlim',[150 400]);
 %set(gca,'Ylim',[0 180]);
 set(gca,'XTick',x);
@@ -54,6 +54,7 @@ set(gca,'XTickLabelRotation',45);
 xlabel('movie size (pixels)');
 ylabel('run time (minutes)');
 set(gca,'Box','off');
+
 keyboard;
 
 end
